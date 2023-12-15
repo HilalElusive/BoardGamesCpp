@@ -4,17 +4,20 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Board.h"
+#include "./Models/Strategy/MovementStrategy.h"
 #include "PieceTextures.h"
 
 class Piece : public sf::Drawable {
 
 public:
 
-	Piece() {}
+	Piece() : b() { movementStrategy = nullptr; }
+	~Piece();
 
 	void setPiece(char type, bool player, int pos);
 
-	void setType(char ch) { m_type = ch; setTexture(); }
+	void setType(char ch);
 	char getType() const { return m_type; }
 
 	void setPlayer(bool bl) { m_player = bl; }
@@ -24,25 +27,26 @@ public:
 	int getPosition() const { return m_position; }
 
 	void setMoved(bool moved) { m_moved = moved; }
-	bool isMoved() const { return m_moved; }
+	bool hasMoved() const { return m_moved; }
 
-	const std::vector<int>& getPossibleMoves(); //Depending on the type it return the possible moves
+	void setStrategy(MovementStrategy* strategy);
+
+	std::vector<int>& getPossibleMoves(); //Depending on the type it return the possible moves
 
 private:
 	sf::Sprite m_sprite;
 	std::vector<int> possibleMoves;
+	Board b;
+
+	MovementStrategy* movementStrategy;
 
 	char m_type; //'K'=King , 'Q' = Queen , 'P' = Pawn
-	bool m_player; // true == White , false == Black  // To Future Me : Do it in a Class !!!!!!
+	bool m_player; // true == White , false == Black
 	int m_position; // 0-224 board, -1 dead
 	bool m_moved;
 	
 	void setTexture();
-	void move(); //aligning the sprite to Board
-
-	void PossibleKingMoves();
-	void PossibleQueenMoves();
-	void PossiblePawnMoves();
+	void alignTexture(); //aligning the sprite to Board
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{

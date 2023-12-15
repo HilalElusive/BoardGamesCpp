@@ -1,42 +1,59 @@
 #include "Piece.h"
-#include "Board.h"
+#include "./Models/Strategy/KingMovementStrategy.h"
+#include "./Models/Strategy/QueenMovementStrategy.h"
+#include "./Models/Strategy/PawnMovementStrategy.h"
+
+Piece::~Piece() {
+	delete movementStrategy;
+}
 
 void Piece::setPiece(char type, bool player, int pos) {
 	if (pos == -1) return;
 
 	setPlayer(player);
-	setType(type);
 	setPosition(pos);
 	setMoved(false);
+	setType(type);
 }
 
 void Piece::setPosition(int pos) {
 	m_position = pos;
 	m_moved = true;
-	move();
+	alignTexture();
 }
 
-const std::vector<int>& Piece::getPossibleMoves()
-{
+void Piece::setType(char ty) { 
+	m_type = ty;
+	setTexture();
+
 	switch (m_type)
 	{
 	case 'K':
-		PossibleKingMoves();
+		setStrategy(new KingMovementStrategy());
 		break;
 	case 'Q':
-		PossibleQueenMoves();
+		setStrategy(new QueenMovementStrategy());
 		break;
 	case 'P':
-		PossiblePawnMoves();
+		setStrategy(new PawnMovementStrategy());
 		break;
 	default:
 		std::cerr << "Error: piece type does not exist.\n";
 		break;
 	}
+}
+
+void Piece::setStrategy(MovementStrategy * strategy) {
+	delete movementStrategy;
+	movementStrategy = strategy;
+}
+
+std::vector<int>& Piece::getPossibleMoves() {
+	movementStrategy->generatePossibleMoves(*this, possibleMoves);
 	return possibleMoves;
 }
 
-void Piece::move() { //Aligns the piece texture in it's according place
+void Piece::alignTexture() { //Aligns the piece texture in it's according place
 	if (m_position == -1) return; 
 	// Use the pre-calculated positions
 	sf::Vector2f position = Board::squarePositions[m_position];
@@ -49,107 +66,6 @@ void Piece::move() { //Aligns the piece texture in it's according place
 	}
 	m_sprite.setPosition(position.x + 1 + actualSquare.x / 2, position.y + 1 + actualSquare.y / 2);
 	return;
-}
-
-void Piece::PossibleKingMoves() {
-	possibleMoves.clear();
-	int AheadOrBellow = m_player ? - 30 : 30;
-	int LeftorRight = m_player ? - 2 : 2;
-
-	if (m_position + AheadOrBellow >= 0 && m_position + AheadOrBellow < 225) possibleMoves.push_back(m_position + AheadOrBellow);
-	if (m_position - AheadOrBellow >= 0 && m_position - AheadOrBellow < 225) possibleMoves.push_back(m_position - AheadOrBellow);
-
-	if (m_position % 30 != 16) { // Not left edge for white or black
-		if (m_player) {
-			if (m_position + LeftorRight >= 0 && m_position + LeftorRight < 225) possibleMoves.push_back(m_position + LeftorRight);
-		}
-		else if (m_position - LeftorRight >= 0 && m_position - LeftorRight < 225) possibleMoves.push_back(m_position - LeftorRight);
-	}
-	if (m_position % 30 != 28) { // Not right edge for white or black
-		if (m_player) {
-			if (m_position - LeftorRight >= 0 && m_position - LeftorRight < 225) possibleMoves.push_back(m_position - LeftorRight);
-		}
-		else if (m_position + LeftorRight >= 0 && m_position + LeftorRight < 225) possibleMoves.push_back(m_position + LeftorRight);
-	}
-}
-
-void Piece::PossibleQueenMoves() {
-	possibleMoves.clear();
-
-	int forwardRight = m_player ? m_position - 14 : m_position + 14;
-	int forwardLeft = m_player ? m_position - 16 : m_position + 16;
-	int BackwardLeft = m_player ? m_position + 14 : m_position - 14;
-	int BackwardRight = m_player ? m_position + 16 : m_position - 16;
-
-	int AheadOrBellow = m_player ?  - 30 : 30;
-	int LeftorRight = m_player ? - 2 : 2;
-
-	if (m_position % 30 != 15) { // Not left edge for white or black
-		if (m_player) {
-			if (forwardLeft >= 0 && forwardLeft < 225) possibleMoves.push_back(forwardLeft);
-			if (BackwardLeft >= 0 && BackwardLeft < 225) possibleMoves.push_back(BackwardLeft);
-		} 
-		else {
-			if (forwardRight >= 0 && forwardRight < 225) possibleMoves.push_back(forwardRight);
-			if (BackwardRight >= 0 && BackwardRight < 225) possibleMoves.push_back(BackwardRight);
-		}
-	}
-	if (m_position % 30 != 29) { // Not left edge for white or black
-		if (m_player) {
-			if (forwardRight >= 0 && forwardRight < 225) possibleMoves.push_back(forwardRight);
-			if (BackwardRight >= 0 && BackwardRight < 225) possibleMoves.push_back(BackwardRight);
-		}
-		else {
-			if (forwardLeft >= 0 && forwardLeft < 225) possibleMoves.push_back(forwardLeft);
-			if (BackwardLeft >= 0 && BackwardLeft < 225) possibleMoves.push_back(BackwardLeft);
-		}
-	}
-
-	while (m_position + AheadOrBellow >= 0 && m_position + AheadOrBellow < 225) { //Responsible for continuous foward movement for black and white
-		possibleMoves.push_back(m_position + AheadOrBellow);
-		m_player ? AheadOrBellow -= 30 : AheadOrBellow += 30;
-	}
-	AheadOrBellow = m_player ? -30 : 30; //resetting the forward movement counter
-	while (m_position - AheadOrBellow >= 0 && m_position - AheadOrBellow < 225) { //Responsible for continuous backward movement for black and white
-		possibleMoves.push_back(m_position - AheadOrBellow);
-		m_player ? AheadOrBellow -= 30 : AheadOrBellow += 30;
-	}
-	while ((m_position % 30 > 14 && m_position % 30 + LeftorRight >= 15 && m_position % 30 + LeftorRight <= 29) || //Responsible for continuous left movement for black and white
-			(m_position % 30 <= 14  && m_position % 30 + LeftorRight >= 0 && m_position % 30 + LeftorRight <= 14)) {
-		possibleMoves.push_back(m_position + LeftorRight);
-		m_player ? LeftorRight -= 2 : LeftorRight += 2;
-	}
-	LeftorRight = m_player ? - 2 : 2; //resetting the side movement (left/right) counter 
-	while ((m_position % 30 > 14 && m_position % 30 - LeftorRight >= 15 && m_position % 30 - LeftorRight <= 29) || //Responsible for continuous right movement for black and white
-			(m_position % 30 <= 14 && m_position % 30 - LeftorRight >= 0 && m_position % 30 - LeftorRight <= 14)) {
-		possibleMoves.push_back(m_position - LeftorRight);
-		m_player ? LeftorRight -= 2 : LeftorRight += 2;
-	}
-}
-
-void Piece::PossiblePawnMoves() {
-	possibleMoves.clear();
-
-	int forwardRight = m_player ? m_position - 14 : m_position + 14;
-	int forwardLeft = m_player ? m_position - 16 : m_position + 16;
-	int forwardAhead = m_player ? - 30 : 30;
-
-	if (m_position % 30 != 15) { // Not left edge for white or black
-		if (m_player) {
-			if (forwardLeft >= 0 && forwardLeft < 225) possibleMoves.push_back(forwardLeft);
-		}
-		else if (forwardRight >= 0 && forwardRight < 225) possibleMoves.push_back(forwardRight);
-	}
-	if (m_position % 30 != 29) { // Not right edge for white or black
-		if (m_player) {
-			if (forwardRight >= 0 && forwardRight < 225) possibleMoves.push_back(forwardRight);
-		}
-		else if (forwardLeft >= 0 && forwardLeft < 225) possibleMoves.push_back(forwardLeft);
-	}
-	// Long forward move (30), always an option
-	if (m_position + forwardAhead >= 0 && m_position + forwardAhead < 225) possibleMoves.push_back(m_position + forwardAhead);
-	//Pawn special move
-	if(!m_moved && m_position % 30 < 15) possibleMoves.push_back(m_position + 2*forwardAhead);
 }
 
 void Piece::setTexture() {
@@ -178,7 +94,6 @@ void Piece::setTexture() {
 		m_sprite.setScale(sf::Vector2f(1.05f, 1.05f));
 		m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	}
-	else {
+	else
 		std::cerr << "Error: failed to load texture.\n";
-	}
 }

@@ -1,7 +1,8 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game(sf::Color bordCol1, sf::Color bordCol2): board(), turnInitialized(false) {
+Game::Game(sf::Color bordCol1, sf::Color bordCol2): board(), player1(1,"white",true), player2(2,"black",false) {
+	turnInitialized = false;
 	restart();
 }
 
@@ -10,27 +11,23 @@ bool Game::isSelected() { return selected;}
 Board & Game::getBoard() { return board; }
 
 void Game::restart() {
+	// Reset game state
 	selected = false;
-	playerTurn = true;
+	playerTurn = player1.hasTurn(); // Setting the first player as the one who starts the game
+	selectedPiece = nullptr;
+	capturingPieces.clear();
+	capturablePieces.clear();
 
-	blackPieces[0].setPiece('K', false, 22);
-	whitePieces[0].setPiece('K', true, 202);
-
-	for (int i = 1; i < 9; i++) {
-		whitePieces[i].setPiece('Q', true, 2 * (i - 1) + 195);
-		blackPieces[i].setPiece('Q', false, 2 * (i - 1) + 15);
-	}
-	for (int i = 9; i < 24; i++) {
-		whitePieces[i].setPiece('P', true, 2 * (i - 9) + 165);
-		blackPieces[i].setPiece('P', false, 2 * (i - 9) + 31);
-	}
+	player1.initializePieces(true); // true so that player1 get white colored pieces
+	player2.initializePieces(false);  // false so that player2 get black colored pieces
 }
 
 void Game::selectPiece(int pos) {
-	selectedPiece = findPieceAtPosition(pos);
+	Player& currentPlayer = (playerTurn ? player1 : player2);
+	selectedPiece = currentPlayer.findPieceAtPosition(pos);
 	bool isCapturingPiece = std::find(capturingPieces.begin(), capturingPieces.end(), selectedPiece) != capturingPieces.end();
 	
-	if (selectedPiece != nullptr && selectedPiece->getPlayer() == playerTurn) {
+	if (selectedPiece != nullptr) {
 		if (isCapturingPiece || capturingPieces.empty()) {
 			selected = true;
 			capturablePieces.clear();
@@ -97,16 +94,15 @@ void Game::capturing(int endPosition) {
 
 std::vector<int> Game::validPossibleMoves() {
 	validPotentialMove.clear();
-	std::vector<Piece> allPieces(whitePieces.begin(), whitePieces.end());
-	allPieces.insert(allPieces.end(), blackPieces.begin(), blackPieces.end());
-	// First check for queen captures, as they are prioritized
+	const std::vector<const Piece*>& allpieces = allPieces();
+	// First check for queen captures movement, as they are prioritized
 	if (selectedPiece->getType() == 'Q') {
-		validPotentialMove = validQueenCaptures(selectedPiece, allPieces);
+		validPotentialMove = validQueenCaptures(selectedPiece, allpieces);
 		if (!validPotentialMove.empty()) return validPotentialMove; // Prioritize queen captures
 	}
-	// If no queen captures or if the selected piece is not a queen, check for pawn captures
+	// If no queen captures or if the selected piece is not a queen, check for pawn captures movement
 	if (selectedPiece->getType() == 'P') {
-		validPotentialMove = validPawnCaptures(selectedPiece, allPieces);
+		validPotentialMove = validPawnCaptures(selectedPiece, allpieces);
 		if (!validPotentialMove.empty()) return validPotentialMove; // Only allow captures if available
 	}
 	const std::vector<int>& possibleMoves = selectedPiece->getPossibleMoves();
@@ -116,10 +112,10 @@ std::vector<int> Game::validPossibleMoves() {
 	switch (pieceType) {
 	case 'P':
 	case 'Q':
-		validRectangularPieceMoves(validMoves);
+		validRectangularPieceMoves(validMoves, allpieces);
 		break;
 	case 'K':
-		validKingMoves(validMoves);
+		validKingMoves(validMoves, allpieces);
 		break;
 	default:
 		std::cerr << "Error: piece type does not exist.\n";
@@ -129,11 +125,7 @@ std::vector<int> Game::validPossibleMoves() {
 	return validPotentialMove;
 }
 
-void Game::validRectangularPieceMoves(std::vector<int>& moves) {
-	// Combine both sets of pieces into one vector for unified processing
-	std::vector<Piece> allPieces(whitePieces.begin(), whitePieces.end());
-	allPieces.insert(allPieces.end(), blackPieces.begin(), blackPieces.end());
-
+void Game::validRectangularPieceMoves(std::vector<int>& moves, const std::vector<const Piece*>& allPieces) {
 	std::vector<std::vector<int>::iterator> toRemove;
 	for (auto it = moves.begin(); it != moves.end(); ++it) {
 		// Check if the move is to an already occupied position
@@ -147,15 +139,13 @@ void Game::validRectangularPieceMoves(std::vector<int>& moves) {
 	for (auto it = toRemove.rbegin(); it != toRemove.rend(); ++it) {moves.erase(*it);}
 }
 
-void Game::validKingMoves(std::vector<int>& moves) {
+void Game::validKingMoves(std::vector<int>& moves, const std::vector<const Piece*>& allPieces) {
 	std::vector<std::vector<int>::iterator> toRemove;
-	std::vector<Piece> allPieces(whitePieces.begin(), whitePieces.end());
-	allPieces.insert(allPieces.end(), blackPieces.begin(), blackPieces.end());
 
 	//Finding the adversary king position
 	int AdversaryKingPosition;
-	for (const Piece& p : allPieces) {
-		if (p.getPlayer() == !selectedPiece->getPlayer() && p.getType() == 'K') AdversaryKingPosition = p.getPosition();
+	for (const Piece* p : allPieces) {
+		if (p->getPlayer() == !selectedPiece->getPlayer() && p->getType() == 'K') AdversaryKingPosition = p->getPosition();
 	}
 	for (auto it = moves.begin(); it != moves.end(); ++it) {
 		// Check if the move is within the "Royal Distance"
@@ -170,10 +160,11 @@ void Game::validKingMoves(std::vector<int>& moves) {
 	for (auto it = toRemove.rbegin(); it != toRemove.rend(); ++it) { moves.erase(*it); }
 }
 
-std::vector<int> Game::validPawnCaptures(Piece* pawn, std::vector<Piece>& allPieces) {
+std::vector<int> Game::validPawnCaptures(const Piece* pawn, const std::vector<const Piece*>& allpieces) {
 	std::vector<int> captures;
 	int currentPosition = pawn->getPosition();
 	if (currentPosition % 30 >= 15) return captures;
+
 	int forwardDirection = pawn->getPlayer() ? -30 : 30;
 	int obstacleDirection = pawn->getPlayer() ? -15 : 15;
 	int lastEmptyPosition = -1; // Initialize to an invalid position
@@ -185,15 +176,13 @@ std::vector<int> Game::validPawnCaptures(Piece* pawn, std::vector<Piece>& allPie
 		if (opponentPosition < 0 || opponentPosition >= 225 || landingPosition < 0 || landingPosition >= 225)
 			break;
 
-		if (isPositionOccupied(opponentPosition, allPieces) && !isPositionOccupied(landingPosition, allPieces)) {
+		if (isPositionOccupied(opponentPosition, allpieces) && !isPositionOccupied(landingPosition, allpieces)) {
 			Piece* opponentPiece = findPieceAtPosition(opponentPosition);
 
 			if (opponentPiece != nullptr && opponentPiece->getPlayer() != pawn->getPlayer() 
-				&& !isPositionOccupied(currentPosition + obstacleDirection, allPieces) && !isPositionOccupied(opponentPosition + obstacleDirection, allPieces)) {
+				&& !isPositionOccupied(currentPosition + obstacleDirection, allpieces) && !isPositionOccupied(opponentPosition + obstacleDirection, allpieces)) {
 				bool AlreadyCapturingPiece = std::find(capturingPieces.begin(), capturingPieces.end(), pawn) != capturingPieces.end();
-				if (!AlreadyCapturingPiece) {
-					capturingPieces.push_back(pawn);
-				}
+				if (!AlreadyCapturingPiece) { capturingPieces.push_back(pawn); }
 				capturablePieces.push_back(opponentPiece);
 				lastEmptyPosition = landingPosition;
 				currentPosition = landingPosition;
@@ -207,7 +196,7 @@ std::vector<int> Game::validPawnCaptures(Piece* pawn, std::vector<Piece>& allPie
 	return captures;
 }
 
-std::vector<int> Game::validQueenCaptures(Piece* queen, std::vector<Piece>& allPieces) {
+std::vector<int> Game::validQueenCaptures(const Piece* queen, const std::vector<const Piece*>& allPieces) {
 	std::vector<int> captures;
 	int currentPosition = queen->getPosition();
 	int rowStart, rowEnd;
@@ -217,6 +206,7 @@ std::vector<int> Game::validQueenCaptures(Piece* queen, std::vector<Piece>& allP
 	// Calculate the boundaries of the current row where the queen is located
 	rowStart = currentPosition - currentPosition % 15;
 	rowEnd = rowStart + 14;
+
 	// Check captures in all directions
 	for (int direction : moveDirections) {
 		int scanPosition = currentPosition + direction;
@@ -277,46 +267,56 @@ std::vector<int> Game::getIntermediatePositions(int from, int to, int s) {
 	return intermediatePositions;
 }
 
-bool Game::isPositionOccupied(int position, const std::vector<Piece>& allPieces) {
-	for (const Piece& p : allPieces) {
-		if (p.getPosition() == position) return true;
+bool Game::isPositionOccupied(int position, const std::vector<const Piece*>& allPieces) const {
+	for (const Piece* p : allPieces) {
+		if (p->getPosition() == position) return true;
 	}
 	return false;
 }
 
-bool Game::hasIntermediateObstacles(std::vector<int>& intermediatePositions, std::vector<Piece>& allPieces) {
+bool Game::hasIntermediateObstacles(std::vector<int>& intermediatePositions, const std::vector<const Piece*>& allPieces) const {
 	for (int pos : intermediatePositions) {
-		for (const Piece& p : allPieces) {
-			if (p.getPosition() == pos) return true;
+		for (const Piece* p : allPieces) {
+			if (p->getPosition() == pos) return true;
 		}
 	}
 	return false;
 }
 
 Piece* Game::findPieceAtPosition(int position) {
-	for (Piece& piece : whitePieces) {
-		if (piece.getPosition() == position) return &piece;
-	}
-	for (Piece& piece : blackPieces) {
-		if (piece.getPosition() == position) return &piece;
-	}
+	if (player1.findPieceAtPosition(position) != nullptr) return player1.findPieceAtPosition(position);
+	if (player2.findPieceAtPosition(position) != nullptr) return player2.findPieceAtPosition(position);
 	return nullptr; // Return nullptr if no piece is found at the position
 }
 
+std::vector<const Piece*> Game::allPieces() const {
+	std::vector<const Piece*> combinedPieces;
+
+	// Add pieces from player1
+	for (const Piece& piece : player1.getPieces())
+		combinedPieces.push_back(&piece);
+
+	// Add pieces from player2
+	for (const Piece& piece : player2.getPieces())
+		combinedPieces.push_back(&piece);
+
+	return combinedPieces;
+}
+
 void Game::findCapturingScenarios() {
-	std::array<Piece, 24>& playerPieces = playerTurn ? whitePieces : blackPieces;
+	Player& currentPlayer = (playerTurn ? player1 : player2);
+	const std::array<Piece, 24>& playerPieces = currentPlayer.getPieces();
 
-	std::vector<Piece> allPieces(whitePieces.begin(), whitePieces.end());
-	allPieces.insert(allPieces.end(), blackPieces.begin(), blackPieces.end());
+	const std::vector<const Piece*>& allpieces = allPieces();
 
-	for (Piece& p : playerPieces) {
-		if (p.getPosition() != -1 && p.getType() == 'Q') validQueenCaptures(&p, allPieces);
+	for (const Piece& p : playerPieces) {
+		if (p.getPosition() != -1 && p.getType() == 'Q') validQueenCaptures(&p, allpieces);
 	}
 
 	if (capturingPieces.empty()) { // Only check for pawns if no queen captures are found
-		for (Piece& p : playerPieces) {
+		for (const Piece& p : playerPieces) {
 			// Check for horizontal pawn captures
-			if (p.getType() == 'P' && p.getPosition() % 30 < 15) validPawnCaptures(&p, allPieces);
+			if (p.getType() == 'P' && p.getPosition() % 30 < 15) validPawnCaptures(&p, allpieces);
 		}
 	}
 	if (!capturingPieces.empty()) {
@@ -346,23 +346,22 @@ void Game::pawnPromotion(Piece * pawn) {
 }
 
 bool Game::checkmate() {
-	// Check if the white king is checkmated
-	if (isKingCheckmated(whitePieces[0]) || isKingCheckmated(blackPieces[0]))
+	// Check if one of kings is checkmated
+	if (isKingCheckmated(player1.getPieces()[0]) || isKingCheckmated(player2.getPieces()[0]))
 		return true;
 	return false;
 }
 
 bool Game::isKingCheckmated(const Piece& king) {
-	std::vector<Piece> allPieces(whitePieces.begin(), whitePieces.end());
-	allPieces.insert(allPieces.end(), blackPieces.begin(), blackPieces.end());
+	const std::vector<const Piece*>& allpieces = allPieces();
 
 	bool allyPiece = false; // Indicate if an ally is encircling the king
 	int piecesBesideKing = 0; // Indicate the number of pieces encircling the king
 
-	for (Piece& p : allPieces) {
-		if (p.getPosition() - 1 == king.getPosition() || p.getPosition() + 1 == king.getPosition()
-			|| p.getPosition() - 15 == king.getPosition() || p.getPosition() + 15 == king.getPosition()) {
-			if (p.getPlayer() == !king.getPlayer()) allyPiece = true;
+	for (const Piece* p : allpieces) {
+		if (p->getPosition() - 1 == king.getPosition() || p->getPosition() + 1 == king.getPosition()
+			|| p->getPosition() - 15 == king.getPosition() || p->getPosition() + 15 == king.getPosition()) {
+			if (p->getPlayer() == !king.getPlayer()) allyPiece = true;
 			piecesBesideKing += 1;
 		}
 	}
@@ -371,17 +370,18 @@ bool Game::isKingCheckmated(const Piece& king) {
 }
 
 void Game::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-	target.clear(sf::Color(255, 255, 255, 255));
+	//target.clear(sf::Color(255, 255, 255, 255));
 	target.draw(board);
 
-	for (int i = 0; i < 24; i++) {
-		if (whitePieces[i].getPosition() != -1) target.draw(whitePieces[i]);
-		if (blackPieces[i].getPosition() != -1) target.draw(blackPieces[i]);
+	for (const Piece& piece : player1.getPieces()) {
+		if (piece.getPosition() != -1) target.draw(piece, states);
+	}
+	for (const Piece& piece : player2.getPieces()) {
+		if (piece.getPosition() != -1) target.draw(piece, states);
 	}
 
 	if (selectedPiece != nullptr) {
-		for (int i = 0; i < possibleMovesSquares.size(); i++) {
+		for (int i = 0; i < possibleMovesSquares.size(); i++)
 			target.draw(possibleMovesSquares.at(i));
-		}
 	}
 }
