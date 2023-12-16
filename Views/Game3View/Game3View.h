@@ -1,7 +1,6 @@
 #ifndef GAME3VIEW_H
 #define GAME3VIEW_H
 
-#include <SFML/Graphics.hpp>
 #include "../../Models/Game3/Game3Model.h"
 #include "./Piece3View.h"
 #include "../BoardView.h" 

@@ -1,12 +1,2 @@
-﻿  Game3State.cpp
-c:\users\emh\source\repos\projet2023\projet2023\controllers\game3state.cpp(32): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-  MenuState.cpp
-  PieceTextures.cpp
-  Game3View.cpp
-  Piece3View.cpp
-  Generating Code...
+﻿  Game2Player.cpp
   Projet2023.vcxproj -> C:\Users\EmH\source\repos\Projet2023\x64\Debug\Projet2023.exe

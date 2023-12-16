@@ -1,10 +1,9 @@
 #include "Game3Model.h"
 #include <iostream>
 
-Game3Model::Game3Model() : board(), player1(1, "white", true), player2(2, "black", false) {
+Game3Model::Game3Model() : board(), player1(1, "Player One", true), player2(2, "Player Two", false) {
 	turnInitialized = false;
 	restart();
-
 }
 
 bool Game3Model::isSelected() const { return selected; }
@@ -24,7 +23,7 @@ void Game3Model::restart() {
 }
 
 void Game3Model::selectPiece(int pos) {
-	Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game3Player& currentPlayer = (playerTurn ? player1 : player2);
 	selectedPiece = currentPlayer.findPieceAtPosition(pos);
 	bool isCapturingPiece = std::find(capturingPieces.begin(), capturingPieces.end(), selectedPiece) != capturingPieces.end();
 
@@ -298,7 +297,7 @@ std::vector<const Piece3Model*> Game3Model::allPieces() const {
 }
 
 void Game3Model::findCapturingScenarios() {
-	Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game3Player& currentPlayer = (playerTurn ? player1 : player2);
 	const std::array<Piece3Model, 24>& playerPieces = currentPlayer.getPieces();
 
 	const std::vector<const Piece3Model*>& allpieces = allPieces();

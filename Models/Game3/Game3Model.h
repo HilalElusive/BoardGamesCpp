@@ -2,7 +2,7 @@
 #define GAME3MODEL_H
 
 #include "../BoardModel.h"
-#include "../Player/Player.h"
+#include "Game3Player.h"
 #include "Piece3Model.h"
 
 class Game3Model {
@@ -10,8 +10,8 @@ private:
 	BoardModel board;
 	Piece3Model* selectedPiece;
 
-	Player player1;
-	Player player2;
+	Game3Player player1;
+	Game3Player player2;
 
 	std::vector<int> validPotentialMove;
 	std::vector<Piece3Model*> capturablePieces;

@@ -1,18 +1,18 @@
-#ifndef PIECE3VIEW_H
-#define PIECE3VIEW_H
+#ifndef PIECE2VIEW_H
+#define PIECE2VIEW_H
 
-#include "../../Models/BoardModel.h"
-#include "../../Models/Game3/Piece3Model.h"
+#include "../../Models/Game2/Piece2Model.h"
+#include "../../Models/Game2/Board2Model.h"
 #include "../../PieceTextures.h"
 
-class Piece3View {
+class Piece2View {
 public:
-	Piece3View(const Piece3Model& pieceModel, const BoardModel& boardModel);
+	Piece2View(const Piece2Model& pieceModel, const Board2Model& boardModel);
 	void draw(sf::RenderWindow &window);
 
 private:
-	const Piece3Model& pieceModel;
-	const BoardModel& boardModel;
+	const Piece2Model& pieceModel;
+	const Board2Model& boardModel;
 
 	char lastKnownType; // To update texture in case of promotion
 	int lastKnownPosition;
