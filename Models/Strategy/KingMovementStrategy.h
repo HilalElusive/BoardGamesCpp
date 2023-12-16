@@ -5,6 +5,6 @@
 
 class KingMovementStrategy : public MovementStrategy {
 public:
-	void generatePossibleMoves(Piece& piece, std::vector<int>& move) override;
+	void generatePossibleMoves(Piece3Model& piece, std::vector<int>& move) override;
 };
 #endif

@@ -1,7 +1,7 @@
 #include "PawnMovementStrategy.h"
-#include "../../Piece.h"
+#include "../Game3/Piece3Model.h"
 
-void PawnMovementStrategy::generatePossibleMoves(Piece & piece, std::vector<int>& moves) {
+void PawnMovementStrategy::generatePossibleMoves(Piece3Model & piece, std::vector<int>& moves) {
 	moves.clear();
 
 	int forwardRight = piece.getPlayer() ? piece.getPosition() - 14 : piece.getPosition() + 14;

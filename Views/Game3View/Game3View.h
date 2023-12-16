@@ -2,7 +2,8 @@
 #define GAME3VIEW_H
 
 #include <SFML/Graphics.hpp>
-#include "../../Models/Game3/Game3Model.h" // Including the Game3Model for accessing game data
+#include "../../Models/Game3/Game3Model.h"
+#include "./Piece3View.h"
 #include "../BoardView.h" 
 
 class Game3View {
@@ -13,6 +14,8 @@ public:
 private:
 	const Game3Model& model;
 	BoardView boardView;
+	std::vector<Piece3View> pieceViews;
+
 	void createMovesSquares(std::vector<sf::RectangleShape>& squares);
 };
 

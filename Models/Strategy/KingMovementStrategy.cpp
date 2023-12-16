@@ -1,7 +1,7 @@
 #include "KingMovementStrategy.h"
-#include "../../Piece.h"
+#include "../Game3/Piece3Model.h"
 
-void KingMovementStrategy::generatePossibleMoves(Piece& piece, std::vector<int>& moves) {
+void KingMovementStrategy::generatePossibleMoves(Piece3Model& piece, std::vector<int>& moves) {
 	moves.clear();
 	int position = piece.getPosition();
 	int AheadOrBellow = piece.getPlayer() ? -30 : 30;

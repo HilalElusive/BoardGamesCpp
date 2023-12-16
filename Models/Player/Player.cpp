@@ -14,12 +14,12 @@ bool Player::hasTurn() const {
 	return turn;
 }
 
-const std::array<Piece, 24>& Player::getPieces() const{
+const std::array<Piece3Model, 24>& Player::getPieces() const{
 	return pieces;
 }
 
-Piece * Player::findPieceAtPosition(int position) {
-	for (Piece& piece : pieces) {
+Piece3Model * Player::findPieceAtPosition(int position) {
+	for (Piece3Model& piece : pieces) {
 		if (piece.getPosition() == position) return &piece;
 	}
 	return nullptr;

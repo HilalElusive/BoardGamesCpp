@@ -18,4 +18,4 @@ private:
 	GameStateManager* stateManager; // For state transitions
 };
 
-#endif // MENUSTATE_H
+#endif

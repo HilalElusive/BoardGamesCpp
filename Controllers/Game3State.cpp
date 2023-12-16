@@ -1,9 +1,12 @@
 #include "Game3State.h"
 #include "MenuState.h"
+#include <iostream>
 
 Game3State::Game3State(GameStateManager* manager) : model(), view(model), stateManager(manager) {}
 
-Game3State::~Game3State() {}
+Game3State::~Game3State() {
+	PieceTextures::cleanup();
+}
 
 // Update the game state
 void Game3State::update(sf::RenderWindow &window, sf::Event &event) {

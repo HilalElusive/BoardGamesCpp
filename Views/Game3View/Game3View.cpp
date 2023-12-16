@@ -1,7 +1,10 @@
 #include "Game3View.h"
 
 Game3View::Game3View(const Game3Model& model) : model(model), boardView(model.getBoardModel()) {
-	// Initialize your view here if needed
+	// Initialize pieceViews
+	for (const Piece3Model* piece : model.allPieces()) {
+		pieceViews.emplace_back(*piece, model.getBoardModel());
+	}
 }
 
 void Game3View::draw(sf::RenderWindow &window) {
@@ -9,17 +12,17 @@ void Game3View::draw(sf::RenderWindow &window) {
 	boardView.draw(window);
 
 	// Draw the pieces
-	for (const Piece* piece : model.allPieces()) {
-		if (piece->getPosition() != -1) {
-			window.draw(*piece);
-		}
+	for (Piece3View& pieceView : pieceViews) {
+		pieceView.draw(window);
 	}
 
 	// Draw possible moves
-	std::vector<sf::RectangleShape> possibleMovesSquares;
-	createMovesSquares(possibleMovesSquares);
-	for (const auto& square : possibleMovesSquares) {
-		window.draw(square);
+	if (model.isSelected()) {
+		std::vector<sf::RectangleShape> possibleMovesSquares;
+		createMovesSquares(possibleMovesSquares);
+		for (const sf::RectangleShape& square : possibleMovesSquares) {
+			window.draw(square);
+		}
 	}
 }
 

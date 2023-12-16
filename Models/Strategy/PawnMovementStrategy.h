@@ -7,7 +7,7 @@ class PawnMovementStrategy : public MovementStrategy
 {
 public:
 	//PawnMovementStrategy(Piece& p) { generatePossibleMoves(p); }
-	void generatePossibleMoves(Piece& piece, std::vector<int>& move) override;
+	void generatePossibleMoves(Piece3Model& piece, std::vector<int>& move) override;
 };
 
 #endif

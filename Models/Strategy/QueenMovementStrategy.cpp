@@ -1,7 +1,7 @@
 #include "QueenMovementStrategy.h"
-#include "../../Piece.h"
+#include "../Game3/Piece3Model.h"
 
-void QueenMovementStrategy::generatePossibleMoves(Piece & piece, std::vector<int>& moves) {
+void QueenMovementStrategy::generatePossibleMoves(Piece3Model& piece, std::vector<int>& moves) {
 	moves.clear();
 
 	bool player = piece.getPlayer();

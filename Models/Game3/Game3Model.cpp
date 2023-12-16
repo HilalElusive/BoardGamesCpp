@@ -1,4 +1,5 @@
 #include "Game3Model.h"
+#include <iostream>
 
 Game3Model::Game3Model() : board(), player1(1, "white", true), player2(2, "black", false) {
 	turnInitialized = false;
@@ -6,7 +7,7 @@ Game3Model::Game3Model() : board(), player1(1, "white", true), player2(2, "black
 
 }
 
-bool Game3Model::isSelected() { return selected; }
+bool Game3Model::isSelected() const { return selected; }
 
 const BoardModel & Game3Model::getBoardModel() const { return board; }
 
@@ -68,7 +69,7 @@ void Game3Model::capturing(int endPosition) {
 	// Iterate through capturablePieces to find and remove pieces on the capture path
 	auto captureIt = capturablePieces.begin();
 	while (captureIt != capturablePieces.end()) {
-		Piece* piece = *captureIt;
+		Piece3Model* piece = *captureIt;
 		if (std::find(capturePath.begin(), capturePath.end(), piece->getPosition()) != capturePath.end()) {
 			piece->setPosition(-1); // Remove the piece from the board
 			captureIt = capturablePieces.erase(captureIt); // Erase and advance iterator
@@ -85,7 +86,7 @@ const std::vector<int>& Game3Model::getValidMoves() const {
 
 std::vector<int> Game3Model::validPossibleMoves() {
 	validPotentialMove.clear();
-	const std::vector<const Piece*>& allpieces = allPieces();
+	const std::vector<const Piece3Model*>& allpieces = allPieces();
 	// First check for queen captures movement, as they are prioritized
 	if (selectedPiece->getType() == 'Q') {
 		validPotentialMove = validQueenCaptures(selectedPiece, allpieces);
@@ -116,7 +117,7 @@ std::vector<int> Game3Model::validPossibleMoves() {
 	return validPotentialMove;
 }
 
-void Game3Model::validRectangularPieceMoves(std::vector<int>& moves, const std::vector<const Piece*>& allPieces) {
+void Game3Model::validRectangularPieceMoves(std::vector<int>& moves, const std::vector<const Piece3Model*>& allPieces) {
 	std::vector<std::vector<int>::iterator> toRemove;
 	for (auto it = moves.begin(); it != moves.end(); ++it) {
 		// Check if the move is to an already occupied position
@@ -130,12 +131,12 @@ void Game3Model::validRectangularPieceMoves(std::vector<int>& moves, const std::
 	for (auto it = toRemove.rbegin(); it != toRemove.rend(); ++it) { moves.erase(*it); }
 }
 
-void Game3Model::validKingMoves(std::vector<int>& moves, const std::vector<const Piece*>& allPieces) {
+void Game3Model::validKingMoves(std::vector<int>& moves, const std::vector<const Piece3Model*>& allPieces) {
 	std::vector<std::vector<int>::iterator> toRemove;
 
 	//Finding the adversary king position
 	int AdversaryKingPosition;
-	for (const Piece* p : allPieces) {
+	for (const Piece3Model* p : allPieces) {
 		if (p->getPlayer() == !selectedPiece->getPlayer() && p->getType() == 'K') AdversaryKingPosition = p->getPosition();
 	}
 	for (auto it = moves.begin(); it != moves.end(); ++it) {
@@ -151,7 +152,7 @@ void Game3Model::validKingMoves(std::vector<int>& moves, const std::vector<const
 	for (auto it = toRemove.rbegin(); it != toRemove.rend(); ++it) { moves.erase(*it); }
 }
 
-std::vector<int> Game3Model::validPawnCaptures(const Piece* pawn, const std::vector<const Piece*>& allpieces) {
+std::vector<int> Game3Model::validPawnCaptures(const Piece3Model* pawn, const std::vector<const Piece3Model*>& allpieces) {
 	std::vector<int> captures;
 	int currentPosition = pawn->getPosition();
 	if (currentPosition % 30 >= 15) return captures;
@@ -168,7 +169,7 @@ std::vector<int> Game3Model::validPawnCaptures(const Piece* pawn, const std::vec
 			break;
 
 		if (isPositionOccupied(opponentPosition, allpieces) && !isPositionOccupied(landingPosition, allpieces)) {
-			Piece* opponentPiece = findPieceAtPosition(opponentPosition);
+			Piece3Model* opponentPiece = findPieceAtPosition(opponentPosition);
 
 			if (opponentPiece != nullptr && opponentPiece->getPlayer() != pawn->getPlayer()
 				&& !isPositionOccupied(currentPosition + obstacleDirection, allpieces) && !isPositionOccupied(opponentPosition + obstacleDirection, allpieces)) {
@@ -187,7 +188,7 @@ std::vector<int> Game3Model::validPawnCaptures(const Piece* pawn, const std::vec
 	return captures;
 }
 
-std::vector<int> Game3Model::validQueenCaptures(const Piece* queen, const std::vector<const Piece*>& allPieces) {
+std::vector<int> Game3Model::validQueenCaptures(const Piece3Model* queen, const std::vector<const Piece3Model*>& allPieces) {
 	std::vector<int> captures;
 	int currentPosition = queen->getPosition();
 	int rowStart, rowEnd;
@@ -211,7 +212,7 @@ std::vector<int> Game3Model::validQueenCaptures(const Piece* queen, const std::v
 				// Checking if the selected existing piece is at the edges of the board
 				if ((direction == -2 || direction == 2) && (scanPosition == rowStart || scanPosition == rowEnd)) { break; }
 				else { if ((direction == -30 || direction == 30) && (scanPosition < 15 || scanPosition > 209)) { break; } }
-				Piece* pieceAtPosition = findPieceAtPosition(scanPosition);
+				Piece3Model* pieceAtPosition = findPieceAtPosition(scanPosition);
 				if (pieceAtPosition->getPlayer() != queen->getPlayer() && !isPositionOccupied(scanPosition + direction, allPieces)
 					&& !isPositionOccupied(scanPosition - (direction / 2), allPieces) && !isPositionOccupied(scanPosition + (direction / 2), allPieces)) {
 					// Found a capturable opponent piece with a valid landing position and no king is in both ways
@@ -258,38 +259,38 @@ std::vector<int> Game3Model::getIntermediatePositions(int from, int to, int s) {
 	return intermediatePositions;
 }
 
-bool Game3Model::isPositionOccupied(int position, const std::vector<const Piece*>& allPieces) const {
-	for (const Piece* p : allPieces) {
+bool Game3Model::isPositionOccupied(int position, const std::vector<const Piece3Model*>& allPieces) const {
+	for (const Piece3Model* p : allPieces) {
 		if (p->getPosition() == position) return true;
 	}
 	return false;
 }
 
-bool Game3Model::hasIntermediateObstacles(std::vector<int>& intermediatePositions, const std::vector<const Piece*>& allPieces) const {
+bool Game3Model::hasIntermediateObstacles(std::vector<int>& intermediatePositions, const std::vector<const Piece3Model*>& allPieces) const {
 	for (int pos : intermediatePositions) {
-		for (const Piece* p : allPieces) {
+		for (const Piece3Model* p : allPieces) {
 			if (p->getPosition() == pos) return true;
 		}
 	}
 	return false;
 }
 
-Piece* Game3Model::findPieceAtPosition(int position) {
+Piece3Model* Game3Model::findPieceAtPosition(int position) {
 	if (player1.findPieceAtPosition(position) != nullptr) return player1.findPieceAtPosition(position);
 	if (player2.findPieceAtPosition(position) != nullptr) return player2.findPieceAtPosition(position);
 	return nullptr; // Return nullptr if no piece is found at the position
 }
 
-std::vector<const Piece*> Game3Model::allPieces() const {
-	std::vector<const Piece*> combinedPieces;
+std::vector<const Piece3Model*> Game3Model::allPieces() const {
+	std::vector<const Piece3Model*> combinedPieces;
 
 	// Add pieces from player1
-	for (const Piece& piece : player1.getPieces()){
+	for (const Piece3Model& piece : player1.getPieces()){
 		if(piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 
 	// Add pieces from player2
-	for (const Piece& piece : player2.getPieces()) {
+	for (const Piece3Model& piece : player2.getPieces()) {
 		if (piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 
@@ -298,16 +299,16 @@ std::vector<const Piece*> Game3Model::allPieces() const {
 
 void Game3Model::findCapturingScenarios() {
 	Player& currentPlayer = (playerTurn ? player1 : player2);
-	const std::array<Piece, 24>& playerPieces = currentPlayer.getPieces();
+	const std::array<Piece3Model, 24>& playerPieces = currentPlayer.getPieces();
 
-	const std::vector<const Piece*>& allpieces = allPieces();
+	const std::vector<const Piece3Model*>& allpieces = allPieces();
 
-	for (const Piece& p : playerPieces) {
+	for (const Piece3Model& p : playerPieces) {
 		if (p.getPosition() != -1 && p.getType() == 'Q') validQueenCaptures(&p, allpieces);
 	}
 
 	if (capturingPieces.empty()) { // Only check for pawns if no queen captures are found
-		for (const Piece& p : playerPieces) {
+		for (const Piece3Model& p : playerPieces) {
 			// Check for horizontal pawn captures
 			if (p.getType() == 'P' && p.getPosition() % 30 < 15) validPawnCaptures(&p, allpieces);
 		}
@@ -328,7 +329,7 @@ void Game3Model::findCapturingScenarios() {
 	}
 }
 
-void Game3Model::pawnPromotion(Piece * pawn) {
+void Game3Model::pawnPromotion(Piece3Model * pawn) {
 	if (pawn->getPlayer() && pawn->getPosition() < 15) {
 		pawn->setType('Q');
 	}
@@ -345,13 +346,13 @@ bool Game3Model::checkmate() {
 	return false;
 }
 
-bool Game3Model::isKingCheckmated(const Piece& king) {
-	const std::vector<const Piece*>& allpieces = allPieces();
+bool Game3Model::isKingCheckmated(const Piece3Model& king) {
+	const std::vector<const Piece3Model*>& allpieces = allPieces();
 
 	bool allyPiece = false; // Indicate if an ally is encircling the king
 	int piecesBesideKing = 0; // Indicate the number of pieces encircling the king
 
-	for (const Piece* p : allpieces) {
+	for (const Piece3Model* p : allpieces) {
 		if (p->getPosition() - 1 == king.getPosition() || p->getPosition() + 1 == king.getPosition()
 			|| p->getPosition() - 15 == king.getPosition() || p->getPosition() + 15 == king.getPosition()) {
 			if (p->getPlayer() == !king.getPlayer()) allyPiece = true;

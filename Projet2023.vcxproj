@@ -157,42 +157,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Controllers\Game3State.cpp" />
     <ClCompile Include="Controllers\GameStateManager.cpp" />
     <ClCompile Include="Controllers\MenuState.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Models\BoardModel.cpp" />
     <ClCompile Include="Models\Game3\Game3Model.cpp" />
+    <ClCompile Include="Models\Game3\Piece3Model.cpp" />
     <ClCompile Include="Models\Player\Player.cpp" />
     <ClCompile Include="Models\Strategy\KingMovementStrategy.cpp" />
     <ClCompile Include="Models\Strategy\PawnMovementStrategy.cpp" />
     <ClCompile Include="Models\Strategy\QueenMovementStrategy.cpp" />
-    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceTextures.cpp" />
     <ClCompile Include="Views\BoardView.cpp" />
     <ClCompile Include="Views\Game3View\Game3View.cpp" />
+    <ClCompile Include="Views\Game3View\Piece3View.cpp" />
     <ClCompile Include="Views\MenuView\MenuView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h" />
     <ClInclude Include="Controllers\Game3State.h" />
     <ClInclude Include="Controllers\GameState.h" />
     <ClInclude Include="Controllers\GameStateManager.h" />
     <ClInclude Include="Controllers\MenuState.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Models\BoardModel.h" />
     <ClInclude Include="Models\Game3\Game3Model.h" />
+    <ClInclude Include="Models\Game3\Piece3Model.h" />
     <ClInclude Include="Models\Player\Player.h" />
     <ClInclude Include="Models\Strategy\KingMovementStrategy.h" />
     <ClInclude Include="Models\Strategy\MovementStrategy.h" />
     <ClInclude Include="Models\Strategy\PawnMovementStrategy.h" />
     <ClInclude Include="Models\Strategy\QueenMovementStrategy.h" />
-    <ClInclude Include="Piece.h" />
     <ClInclude Include="PieceTextures.h" />
     <ClInclude Include="Views\BoardView.h" />
     <ClInclude Include="Views\Game3View\Game3View.h" />
+    <ClInclude Include="Views\Game3View\Piece3View.h" />
     <ClInclude Include="Views\MenuView\MenuView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

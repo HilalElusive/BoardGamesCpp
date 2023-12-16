@@ -8,8 +8,6 @@ MenuState::MenuState(GameStateManager* manager, float width, float height)
 MenuState::~MenuState() {}
 
 void MenuState::update(sf::RenderWindow &window, sf::Event &event) {
-	// Handle user input to navigate the menu
-	// Example: Move up and down in the menu
 	if (event.type == sf::Event::KeyReleased) {
 		if (event.key.code == sf::Keyboard::Up) {
 			menuView.MoveUp();
@@ -24,7 +22,6 @@ void MenuState::update(sf::RenderWindow &window, sf::Event &event) {
 			case 2:  // Selection for Game 3
 				stateManager->changeState(new Game3State(stateManager));
 				break;
-				// Add cases for other menu items if necessary
 			}
 		}
 	}

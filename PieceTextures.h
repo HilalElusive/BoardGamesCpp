@@ -15,6 +15,7 @@ public:
 	static sf::Texture* whitePawn;
 
 	static sf::Texture& loadTexture(std::string str, sf::Texture*& texture);
+	static void cleanup();
 };
 
 #endif
