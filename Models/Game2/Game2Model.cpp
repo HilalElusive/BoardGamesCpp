@@ -34,7 +34,6 @@ void Game2Model::selectPiece(int pos) {
 	if (selectedPiece != nullptr) {
 		if (isCapturingPiece || capturingPieces.empty()) {
 			selected = true;
-			capturablePieces.clear();
 			std::cout << "selected piece at : " << pos << std::endl;
 			validPotentialMove = validPossibleMoves();
 		}
@@ -120,17 +119,15 @@ std::vector<int> Game2Model::validPossibleMoves() {
 
 	if (selectedPiece->getType() == 'P') {
 		for (const auto& sequence : validPawnCaptures(selectedPiece).first){
-			for (int pos : sequence)
-				if (!isPositionInSequence(pos, validPotentialMove))
-					validPotentialMove.push_back(pos);
+			if (!isPositionInSequence(sequence.back(), validPotentialMove))
+				validPotentialMove.push_back(sequence.back());
 		}
 		if (!validPotentialMove.empty()) return validPotentialMove; // Only allow captures if available
 	}
 	if (selectedPiece->getType() == 'Q') {
 		for (const auto& sequence : validQueenCaptures(selectedPiece).first){
-			for (int pos : sequence)
-				if (!isPositionInSequence(pos, validPotentialMove))
-					validPotentialMove.push_back(pos);
+			if (!isPositionInSequence(sequence.back(), validPotentialMove))
+				validPotentialMove.push_back(sequence.back());
 		}
 		if (!validPotentialMove.empty()) return validPotentialMove; // Only allow captures if available
 	}
@@ -149,7 +146,7 @@ std::pair<std::vector<std::vector<int>>, int> Game2Model::validPawnCaptures(cons
 	std::vector<int> currentSequence;
 	explorePawnCaptures(piece, piece->getPosition(), currentSequence, allLongestSequences);
 
-	int maxCapturablePieces = allLongestSequences.empty() ? 0 : allLongestSequences[0].size();
+	int maxCapturablePieces = allLongestSequences.empty() ? 0 : static_cast<int>(allLongestSequences[0].size());
 	return std::make_pair(allLongestSequences, maxCapturablePieces);
 }
 
@@ -183,7 +180,7 @@ std::pair<std::vector<std::vector<int>>, int> Game2Model::validQueenCaptures(con
 	std::set<int> capturedPositions; // To keep track of captured pieces in a sequence
 	exploreQueenCaptures(piece, piece->getPosition(), currentSequence, allLongestSequences, capturedPositions);
 
-	int maxCapturablePieces = allLongestSequences.empty() ? 0 : allLongestSequences[0].size();
+	int maxCapturablePieces = allLongestSequences.empty() ? 0 : static_cast<int>(allLongestSequences[0].size());
 	return std::make_pair(allLongestSequences, maxCapturablePieces);
 }
 
@@ -313,12 +310,5 @@ void Game2Model::findCapturingScenarios() {
 			std::cout << "||\tcapturing piece at : " << i->getPosition() << i->getType() << "\t||" << std::endl;
 		}
 		std::cout << "  +++++++++++++++++++++++++++++++++++++\n" << std::endl;
-	}
-	if (!capturablePieces.empty()) {
-		std::cout << "  =====================================" << std::endl;
-		for (auto i : capturablePieces) {
-			std::cout << "||\tcapturable piece at : " << i->getPosition() << i->getType() << "\t||" << std::endl;
-		}
-		std::cout << "  =====================================\n" << std::endl;
 	}
 }

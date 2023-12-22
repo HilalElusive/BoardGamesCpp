@@ -1,4 +1,7 @@
-﻿  Game2Model.cpp
-c:\users\emh\source\repos\projet2023\projet2023\models\game2\game2model.cpp(152): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\emh\source\repos\projet2023\projet2023\models\game2\game2model.cpp(186): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  GameStateManager.cpp
+c:\users\emh\source\repos\projet2023\projet2023\controllers\gamestatemanager.cpp(7): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
   Projet2023.vcxproj -> C:\Users\EmH\source\repos\Projet2023\x64\Debug\Projet2023.exe

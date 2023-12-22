@@ -18,14 +18,14 @@ void Game2Player::initializePieces(bool player) {
 	int pieceCount = 0;
 	for (int i = 0; i < 10 && pieceCount < 20; i++) {
 		for (int j = 0; j < 10; j++) {
-			/*if ((i + j) % 2 != 0) { // Check for dark square
+			if ((i + j) % 2 != 0) { // Check for dark square
 				int position = i * 10 + j + (player ? 60 : 0);
 				pieces[pieceCount++].setPiece('P', player, position);
-			}*/
-			pieces[pieceCount++].setPiece('P', player, 1);
+			}
+			//pieces[pieceCount++].setPiece('P', player, 1);
 		}
 	}
-	for (auto& piece : pieces) {
+	/*for (auto& piece : pieces) {
 		piece.setPosition(-1);
 	}
 	
@@ -39,5 +39,5 @@ void Game2Player::initializePieces(bool player) {
 	else {
 		pieces[5].setPosition(45); pieces[5].setType('Q');
 		pieces[6].setPosition(16); pieces[6].setType('Q');
-	}
+	}*/
 }

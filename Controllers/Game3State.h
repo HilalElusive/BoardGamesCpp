@@ -16,6 +16,7 @@ public:
 	~Game3State() override;
 	void update(sf::RenderWindow &window, sf::Event &event) override;
 	void render(sf::RenderWindow &window) override;
+	std::string getStateName() const override;
 };
 
 #endif

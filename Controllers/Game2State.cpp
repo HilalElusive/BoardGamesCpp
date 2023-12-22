@@ -38,3 +38,5 @@ void Game2State::update(sf::RenderWindow &window, sf::Event &event) {
 void Game2State::render(sf::RenderWindow &window) {
 	view.draw(window);
 }
+
+std::string Game2State::getStateName() const { return "Les Dames"; }

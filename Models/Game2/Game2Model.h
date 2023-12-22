@@ -13,29 +13,28 @@ private:
 	Game2Player player1;
 	Game2Player player2;
 
-	std::vector<int> validPotentialMove;
-	std::vector<Piece2Model*> capturablePieces;
-	std::vector<const Piece2Model*> capturingPieces;
-
-	std::vector<int> validPossibleMoves();
-	std::pair<std::vector<std::vector<int>>, int> validPawnCaptures(const Piece2Model* piece);
-	std::pair<std::vector<std::vector<int>>, int> validQueenCaptures(const Piece2Model* piece);
-	void explorePawnCaptures(const Piece2Model* piece, int currpos, std::vector<int>& currentSequence, std::vector<std::vector<int>>& allLongestSequences);
-	void exploreQueenCaptures(const Piece2Model* piece, int currpos, std::vector<int>& currentSequence, std::vector<std::vector<int>>& allLongestSequences, std::set<int>& capturedPositions);
-
 	bool playerTurn;
 	bool turnInitialized;
 	bool selected;
 
+	std::vector<int> validPotentialMove;
+	std::vector<const Piece2Model*> capturingPieces;
+
+	std::vector<int> validPossibleMoves();
+	void validPieceMoves(std::vector<int>& moves);
+	std::pair<std::vector<std::vector<int>>, int> validPawnCaptures(const Piece2Model* piece);
+	std::pair<std::vector<std::vector<int>>, int> validQueenCaptures(const Piece2Model* piece);
+
+	void explorePawnCaptures(const Piece2Model* piece, int currpos, std::vector<int>& currentSequence, std::vector<std::vector<int>>& allLongestSequences);
+	void exploreQueenCaptures(const Piece2Model* piece, int currpos, std::vector<int>& currentSequence, std::vector<std::vector<int>>& allLongestSequences, std::set<int>& capturedPositions);
+
 	Piece2Model* findPieceAtPosition(int position);
-	
 	bool isPositionInSequence(int position, const std::vector<int>& sequence);
 	bool isValidDiagonalMove(int fromPos, int toPos);
 	void updateLongestSequences(const std::vector<int>& currentSequence, std::vector<std::vector<int>>& allLongestSequences);
 
 	void capturing(int endPosition);
 	void pawnPromotion(Piece2Model * pawn);
-	void validPieceMoves(std::vector<int>& moves);
 
 public:
 	Game2Model();

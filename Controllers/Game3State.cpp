@@ -38,3 +38,5 @@ void Game3State::render(sf::RenderWindow &window) {
 	// Draw the game using the view
 	view.draw(window);
 }
+
+std::string Game3State::getStateName() const { return "Bulltricker"; }

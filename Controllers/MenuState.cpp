@@ -34,3 +34,5 @@ void MenuState::update(sf::RenderWindow &window, sf::Event &event) {
 void MenuState::render(sf::RenderWindow &window) {
 	menuView.draw(window);
 }
+
+std::string MenuState::getStateName() const { return "Projet Cpp"; }

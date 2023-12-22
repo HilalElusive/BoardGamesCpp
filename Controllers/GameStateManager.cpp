@@ -1,7 +1,11 @@
 #include "GameStateManager.h"
+#include "MenuState.h"
 #include <iostream>
 
-GameStateManager::GameStateManager() : currentState(nullptr) {}
+GameStateManager::GameStateManager(sf::RenderWindow &window) : window(window), currentState(nullptr) {
+	// Initialize the MenuState as the first state
+	currentState = new MenuState(this, window.getSize().x, window.getSize().y);
+}
 
 GameStateManager::~GameStateManager() {
 	if (currentState) {
@@ -10,10 +14,13 @@ GameStateManager::~GameStateManager() {
 }
 
 void GameStateManager::changeState(GameState* newState) {
-	if (currentState != nullptr) {
+	if (currentState != nullptr)
 		delete currentState;
-	}
+
 	currentState = newState;
+
+	if (currentState != nullptr)
+		window.setTitle(currentState->getStateName()); // Update window title
 }
 
 void GameStateManager::update(sf::RenderWindow &window, sf::Event &event) {

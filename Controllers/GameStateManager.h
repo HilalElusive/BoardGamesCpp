@@ -5,7 +5,7 @@
 
 class GameStateManager {
 public:
-	GameStateManager();
+	GameStateManager(sf::RenderWindow &window);
 	~GameStateManager();
 
 	void changeState(GameState* newState);
@@ -14,6 +14,7 @@ public:
 
 private:
 	GameState* currentState;
+	sf::RenderWindow &window;
 };
 
 #endif
