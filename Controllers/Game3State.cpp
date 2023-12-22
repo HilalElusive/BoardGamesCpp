@@ -11,10 +11,10 @@ Game3State::~Game3State() {
 // Update the game state
 void Game3State::update(sf::RenderWindow &window, sf::Event &event) {
 	// Initialize turn if not already done
-	if (!model.turnInitialized) {
+	if (!model.isTurnInitialized()) {
 		std::cout << "----------another turn----------" << std::endl;
 		model.findCapturingScenarios();
-		model.turnInitialized = true;
+		model.setTurnInit(true);
 	}
 	// Process user input and update the model
 	if (event.type == sf::Event::MouseButtonPressed) {
@@ -22,9 +22,8 @@ void Game3State::update(sf::RenderWindow &window, sf::Event &event) {
 			int selectedPositionIndex = model.getBoardModel().getClickedSquareIndex(event.mouseButton);
 			if (!model.isSelected())
 				model.selectPiece(selectedPositionIndex);
-			else {
+			else
 				model.moveSelected(selectedPositionIndex);
-			}
 		}
 	}
 	if (event.type == sf::Event::KeyReleased) {

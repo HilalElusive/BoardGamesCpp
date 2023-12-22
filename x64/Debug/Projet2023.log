@@ -1,2 +1,4 @@
-﻿  Game2Player.cpp
+﻿  Game2Model.cpp
+c:\users\emh\source\repos\projet2023\projet2023\models\game2\game2model.cpp(152): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\emh\source\repos\projet2023\projet2023\models\game2\game2model.cpp(186): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Projet2023.vcxproj -> C:\Users\EmH\source\repos\Projet2023\x64\Debug\Projet2023.exe

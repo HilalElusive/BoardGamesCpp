@@ -11,6 +11,9 @@ private:
 	bool m_player; // true == White , false == Black
 	int m_position; // 0-99 board, -1 dead
 
+	void PossibleQueenMoves();
+	void PossiblePawnMoves();
+
 public:
 	Piece2Model();
 	~Piece2Model();

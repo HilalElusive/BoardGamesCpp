@@ -8,7 +8,11 @@ Game3Model::Game3Model() : board(), player1(1, "Player One", true), player2(2, "
 
 bool Game3Model::isSelected() const { return selected; }
 
+bool Game3Model::isTurnInitialized() const { return turnInitialized; }
+
 const BoardModel & Game3Model::getBoardModel() const { return board; }
+
+void Game3Model::setTurnInit(bool turn) { turnInitialized = turn; }
 
 void Game3Model::restart() {
 	// Reset game state

@@ -20,8 +20,8 @@ private:
 	std::vector<int> validPossibleMoves();
 
 	bool playerTurn; // true = White turn, false = Black Turn
+	bool turnInitialized;
 	bool selected;
-	void capturing(int endPosition);
 
 	//Helper functions
 	std::vector<int> getIntermediatePositions(int from, int to, int step = 1);
@@ -35,6 +35,7 @@ private:
 	void validRectangularPieceMoves(std::vector<int>& moves, const std::vector<const Piece3Model*>& allPieces);
 	void validKingMoves(std::vector<int>& moves, const std::vector<const Piece3Model*>& allPieces);
 
+	void capturing(int endPosition);
 	void pawnPromotion(Piece3Model* pawn);
 	bool checkmate();
 	bool isKingCheckmated(const Piece3Model& king);
@@ -50,9 +51,10 @@ public:
 	std::vector<const Piece3Model*> allPieces() const;
 
 	void restart();
-	bool turnInitialized;
+	void setTurnInit(bool turn);
 
 	bool isSelected() const;
+	bool isTurnInitialized() const;
 	const BoardModel& getBoardModel() const;
 };
 

@@ -15,6 +15,7 @@ private:
 	Board2View boardView;
 	std::vector<Piece2View> pieceViews;
 
+	void createMovesSquares(std::vector<sf::RectangleShape>& squares);
 };
 
 #endif
