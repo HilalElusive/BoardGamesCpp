@@ -1,7 +1,7 @@
 #include "Game2Player.h"
 
-Game2Player::Game2Player(int id, const std::string& name, bool turn)
-	: Player(id, name, turn) {}
+Game2Player::Game2Player(int id, const std::string& name)
+	: Player(id, name) {}
 
 const std::array<Piece2Model, 20>& Game2Player::getPieces() const {
 	return pieces;

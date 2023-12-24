@@ -1,7 +1,6 @@
 #ifndef BOARD2VIEW_H
 #define BOARD2VIEW_H
 
-#include <array>
 #include "../../Models/Game2/Board2Model.h"
 
 class Board2View {

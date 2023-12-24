@@ -1,7 +1,7 @@
 #include "Game2Model.h"
 #include <iostream>
 
-Game2Model::Game2Model() : board(), player1(1, "Player One", true), player2(2, "Player Two", false) {
+Game2Model::Game2Model() : board(), player1(1, "Player One"), player2(2, "Player Two") {
 	turnInitialized = false;
 	restart();
 }
@@ -19,7 +19,7 @@ void Game2Model::setTurnInit(bool turn) { turnInitialized = turn; }
 void Game2Model::restart() {
 	// Reset game state
 	selected = false;
-	playerTurn = player1.hasTurn(); // Setting the first player as the one who starts the game
+	playerTurn = true; // Setting the first player as the one who starts the game
 	selectedPiece = nullptr;
 
 	player1.initializePieces(true); // true so that player1 get white colored pieces

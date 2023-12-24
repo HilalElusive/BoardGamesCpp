@@ -1,5 +1,4 @@
 #include "Board2View.h"
-#include <iostream>
 
 Board2View::Board2View(const Board2Model& model) : model(model) {
 	sf::Color col1 = sf::Color(255, 206, 158);

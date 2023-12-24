@@ -9,7 +9,7 @@ private:
 	std::array<Piece3Model, 24> pieces;
 
 public:
-	Game3Player(int id, const std::string& name, bool turn);
+	Game3Player(int id, const std::string& name);
 
 	const std::array<Piece3Model, 24>& getPieces() const;
 	Piece3Model* findPieceAtPosition(int position);

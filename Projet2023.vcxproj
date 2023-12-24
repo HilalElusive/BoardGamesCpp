@@ -157,12 +157,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controllers\Game1State.cpp" />
     <ClCompile Include="Controllers\Game2State.cpp" />
     <ClCompile Include="Controllers\Game3State.cpp" />
     <ClCompile Include="Controllers\GameStateManager.cpp" />
     <ClCompile Include="Controllers\MenuState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Models\BoardModel.cpp" />
+    <ClCompile Include="Models\Game1\Board1Model.cpp" />
+    <ClCompile Include="Models\Game1\Game1Model.cpp" />
+    <ClCompile Include="Models\Game1\Game1Player.cpp" />
+    <ClCompile Include="Models\Game1\Piece1Model.cpp" />
     <ClCompile Include="Models\Game2\Board2Model.cpp" />
     <ClCompile Include="Models\Game2\Game2Model.cpp" />
     <ClCompile Include="Models\Game2\Game2Player.cpp" />
@@ -176,6 +181,9 @@
     <ClCompile Include="Models\Strategy\QueenMovementStrategy.cpp" />
     <ClCompile Include="PieceTextures.cpp" />
     <ClCompile Include="Views\BoardView.cpp" />
+    <ClCompile Include="Views\Game1\Board1View.cpp" />
+    <ClCompile Include="Views\Game1\Game1View.cpp" />
+    <ClCompile Include="Views\Game1\Piece1View.cpp" />
     <ClCompile Include="Views\Game2\Board2View.cpp" />
     <ClCompile Include="Views\Game2\Game2View.cpp" />
     <ClCompile Include="Views\Game2\Piece2View.cpp" />
@@ -184,12 +192,17 @@
     <ClCompile Include="Views\MenuView\MenuView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers\Game1State.h" />
     <ClInclude Include="Controllers\Game2State.h" />
     <ClInclude Include="Controllers\Game3State.h" />
     <ClInclude Include="Controllers\GameState.h" />
     <ClInclude Include="Controllers\GameStateManager.h" />
     <ClInclude Include="Controllers\MenuState.h" />
     <ClInclude Include="Models\BoardModel.h" />
+    <ClInclude Include="Models\Game1\Board1Model.h" />
+    <ClInclude Include="Models\Game1\Game1Model.h" />
+    <ClInclude Include="Models\Game1\Game1Player.h" />
+    <ClInclude Include="Models\Game1\Piece1Model.h" />
     <ClInclude Include="Models\Game2\Board2Model.h" />
     <ClInclude Include="Models\Game2\Game2Model.h" />
     <ClInclude Include="Models\Game2\Game2Player.h" />
@@ -204,6 +217,9 @@
     <ClInclude Include="Models\Strategy\QueenMovementStrategy.h" />
     <ClInclude Include="PieceTextures.h" />
     <ClInclude Include="Views\BoardView.h" />
+    <ClInclude Include="Views\Game1\Board1View.h" />
+    <ClInclude Include="Views\Game1\Game1View.h" />
+    <ClInclude Include="Views\Game1\Piece1View.h" />
     <ClInclude Include="Views\Game2\Board2View.h" />
     <ClInclude Include="Views\Game2\Game2View.h" />
     <ClInclude Include="Views\Game2\Piece2View.h" />
