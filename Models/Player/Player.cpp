@@ -10,4 +10,12 @@ std::string Player::getName() const {
 	return playerName;
 }
 
+int Player::getScore() const {
+	return score;
+}
+
+void Player::setScore(int scr) {
+	score += scr;
+}
+
 void Player::initializePieces(bool player) {} // Default implementation: Do nothing

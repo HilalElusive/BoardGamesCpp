@@ -14,6 +14,8 @@ public:
 
 	int getId() const;
 	std::string getName() const;
+	int getScore() const;
+	void setScore(int scr);
 
 	virtual void initializePieces(bool player);
 };
