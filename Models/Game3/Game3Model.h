@@ -1,13 +1,13 @@
 #ifndef GAME3MODEL_H
 #define GAME3MODEL_H
 
-#include "../BoardModel.h"
+#include "Board3Model.h"
 #include "Game3Player.h"
 #include "Piece3Model.h"
 
 class Game3Model {
 private:
-	BoardModel board;
+	Board3Model board;
 	Piece3Model* selectedPiece;
 
 	Game3Player player1;
@@ -55,7 +55,7 @@ public:
 
 	bool isSelected() const;
 	bool isTurnInitialized() const;
-	const BoardModel& getBoardModel() const;
+	const Board3Model& getBoardModel() const;
 };
 
 #endif

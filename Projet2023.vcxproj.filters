@@ -30,37 +30,19 @@
     <ClCompile Include="Controllers\MenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\BoardModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Models\Game3\Game3Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Models\Player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Strategy\KingMovementStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Models\Strategy\PawnMovementStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Models\Strategy\QueenMovementStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Views\BoardView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Views\Game3View\Game3View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Views\MenuView\MenuView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Models\Game3\Piece3Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Views\Game3View\Piece3View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Models\Game2\Board2Model.cpp">
@@ -114,6 +96,36 @@
     <ClCompile Include="Models\Game1\Game1Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Models\Piece\PieceModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Strategy\Game3\KingMovementStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Strategy\Game3\PawnMovementStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Strategy\Game3\QueenMovementStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\Game3\Game3View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\Game3\Piece3View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Strategy\Game2\Game2PawnMovementStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Strategy\Game2\Game2QueenMovementStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\Piece\PieceView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Game3\Board3Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PieceTextures.h">
@@ -131,40 +143,22 @@
     <ClInclude Include="Controllers\MenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\BoardModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Models\Game3\Game3Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Models\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Strategy\KingMovementStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Models\Strategy\MovementStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Strategy\PawnMovementStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\Strategy\QueenMovementStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Views\BoardView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\Game3View\Game3View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\MenuView\MenuView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Models\Game3\Piece3Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\Game3View\Piece3View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\Game2\Board2View.h">
@@ -216,6 +210,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Models\Game1\Game1Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Piece\PieceModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Strategy\Game3\KingMovementStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Strategy\Game3\PawnMovementStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Strategy\Game3\QueenMovementStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Game3\Game3View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Game3\Piece3View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Strategy\Game2\Game2PawnMovementStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Strategy\Game2\Game2QueenMovementStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Piece\PieceView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Board\BoardModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Game3\Board3Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

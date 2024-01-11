@@ -3,7 +3,7 @@
 
 #include "GameState.h"
 #include "GameStateManager.h"
-#include "../Views/Game3View/Game3View.h"
+#include "../Views/Game3/Game3View.h"
 
 class Game3State : public GameState {
 private:

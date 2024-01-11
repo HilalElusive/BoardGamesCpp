@@ -4,9 +4,9 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 
-class BoardModel {
+class Board3Model {
 public:
-	BoardModel();
+	Board3Model();
 	int getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPosition) const;
 	sf::Vector2f determineSquareSize(int position) const;
 

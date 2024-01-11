@@ -1,7 +1,7 @@
 #include "Piece3View.h"
 #include <iostream>
 
-Piece3View::Piece3View(const Piece3Model& pieceModel, const BoardModel& boardModel)
+Piece3View::Piece3View(const Piece3Model& pieceModel, const Board3Model& boardModel)
 	: pieceModel(pieceModel), boardModel(boardModel), lastKnownType(pieceModel.getType()), lastKnownPosition(-1) {
 	setTexture();
 }

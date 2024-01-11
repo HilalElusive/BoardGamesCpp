@@ -1,11 +1,13 @@
 #include "QueenMovementStrategy.h"
-#include "../Game3/Piece3Model.h"
+#include "../../Game3/Piece3Model.h"
 
-void QueenMovementStrategy::generatePossibleMoves(Piece3Model& piece, std::vector<int>& moves) {
+void QueenMovementStrategy::generatePossibleMoves(PieceModel& p, std::vector<int>& moves) {
+	// Downcast to Piece3Model
+	Piece3Model* piece = dynamic_cast<Piece3Model*>(&p);
 	moves.clear();
 
-	bool player = piece.getPlayer();
-	int position = piece.getPosition();
+	bool player = piece->getPlayer();
+	int position = piece->getPosition();
 
 	int forwardRight = player ? position - 14 : position + 14;
 	int forwardLeft = player ? position - 16 : position + 16;

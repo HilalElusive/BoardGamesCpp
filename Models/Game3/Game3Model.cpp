@@ -10,7 +10,7 @@ bool Game3Model::isSelected() const { return selected; }
 
 bool Game3Model::isTurnInitialized() const { return turnInitialized; }
 
-const BoardModel & Game3Model::getBoardModel() const { return board; }
+const Board3Model & Game3Model::getBoardModel() const { return board; }
 
 void Game3Model::setTurnInit(bool turn) { turnInitialized = turn; }
 

@@ -1,7 +1,9 @@
 #include "KingMovementStrategy.h"
-#include "../Game3/Piece3Model.h"
+#include "../../Game3/Piece3Model.h"
 
-void KingMovementStrategy::generatePossibleMoves(Piece3Model& piece, std::vector<int>& moves) {
+void KingMovementStrategy::generatePossibleMoves(PieceModel& p, std::vector<int>& moves) {
+	// Downcast to Piece3Model
+	Piece3Model& piece = dynamic_cast<Piece3Model&>(p);
 	moves.clear();
 	int position = piece.getPosition();
 	int AheadOrBellow = piece.getPlayer() ? -30 : 30;

@@ -1,31 +1,27 @@
 #ifndef PIECE2MODEL_H
 #define PIECE2MODEL_H
 
-#include <vector>
+#include "../Strategy/MovementStrategy.h"
 
-class Piece2Model {
+class Piece2Model : public PieceModel {
 private:
-	std::vector<int> possibleMoves;
+	MovementStrategy* movementStrategy;
 
 	char m_type; //'Q' = Queen , 'P' = Pawn
 	bool m_player; // true == White , false == Black
-	int m_position; // 0-99 board, -1 dead
-
-	void PossibleQueenMoves();
-	void PossiblePawnMoves();
 
 public:
 	Piece2Model();
 	~Piece2Model();
 
-	void setPiece(char type, bool player, int pos);
-	void setPosition(int pos);
 	void setType(char ty);
 	void setPlayer(bool bl);
 
 	char getType() const;
 	bool getPlayer() const;
-	int getPosition() const;
+
+	void setPiece(char type, bool player, int pos);
+	void setStrategy(MovementStrategy* strategy);
 
 	std::vector<int>& getPossibleMoves();
 };

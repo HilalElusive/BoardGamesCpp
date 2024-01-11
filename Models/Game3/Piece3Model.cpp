@@ -1,7 +1,7 @@
 #include "Piece3Model.h"
-#include "../Strategy/KingMovementStrategy.h"
-#include "../Strategy/QueenMovementStrategy.h"
-#include "../Strategy/PawnMovementStrategy.h"
+#include "../Strategy/Game3/KingMovementStrategy.h"
+#include "../Strategy/Game3/PawnMovementStrategy.h"
+#include "../Strategy/Game3/QueenMovementStrategy.h"
 #include <iostream>
 
 Piece3Model::Piece3Model() : movementStrategy(nullptr) {}
@@ -17,11 +17,6 @@ void Piece3Model::setPiece(char type, bool player, int pos) {
 	setPosition(pos);
 	setMoved(false);
 	setType(type);
-}
-
-void Piece3Model::setPosition(int pos) {
-	m_position = pos;
-	m_moved = true;
 }
 
 void Piece3Model::setType(char ty) {
@@ -61,18 +56,6 @@ bool Piece3Model::getPlayer() const {
 	return m_player;
 }
 
-void Piece3Model::setMoved(bool moved) {
-	m_moved = moved;
-}
-
-bool Piece3Model::hasMoved() const {
-	return m_moved;
-}
-
 char Piece3Model::getType() const {
 	return m_type;
-}
-
-int Piece3Model::getPosition() const {
-	return m_position;
 }

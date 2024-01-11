@@ -1,6 +1,6 @@
 #include "BoardView.h"
 
-BoardView::BoardView(const BoardModel& model) : model(model) {
+BoardView::BoardView(const Board3Model& model) : model(model) {
 	// You may initialize default colors here, or use a separate load function
 	sf::Color col1 = sf::Color(239, 156, 115);
 	sf::Color col2 = sf::Color(255, 206, 140);

@@ -163,7 +163,6 @@
     <ClCompile Include="Controllers\GameStateManager.cpp" />
     <ClCompile Include="Controllers\MenuState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Models\BoardModel.cpp" />
     <ClCompile Include="Models\Game1\Board1Model.cpp" />
     <ClCompile Include="Models\Game1\Game1Model.cpp" />
     <ClCompile Include="Models\Game1\Game1Player.cpp" />
@@ -172,13 +171,17 @@
     <ClCompile Include="Models\Game2\Game2Model.cpp" />
     <ClCompile Include="Models\Game2\Game2Player.cpp" />
     <ClCompile Include="Models\Game2\Piece2Model.cpp" />
+    <ClCompile Include="Models\Game3\Board3Model.cpp" />
     <ClCompile Include="Models\Game3\Game3Model.cpp" />
     <ClCompile Include="Models\Game3\Game3Player.cpp" />
     <ClCompile Include="Models\Game3\Piece3Model.cpp" />
+    <ClCompile Include="Models\Piece\PieceModel.cpp" />
     <ClCompile Include="Models\Player\Player.cpp" />
-    <ClCompile Include="Models\Strategy\KingMovementStrategy.cpp" />
-    <ClCompile Include="Models\Strategy\PawnMovementStrategy.cpp" />
-    <ClCompile Include="Models\Strategy\QueenMovementStrategy.cpp" />
+    <ClCompile Include="Models\Strategy\Game2\Game2PawnMovementStrategy.cpp" />
+    <ClCompile Include="Models\Strategy\Game2\Game2QueenMovementStrategy.cpp" />
+    <ClCompile Include="Models\Strategy\Game3\KingMovementStrategy.cpp" />
+    <ClCompile Include="Models\Strategy\Game3\PawnMovementStrategy.cpp" />
+    <ClCompile Include="Models\Strategy\Game3\QueenMovementStrategy.cpp" />
     <ClCompile Include="PieceTextures.cpp" />
     <ClCompile Include="Views\BoardView.cpp" />
     <ClCompile Include="Views\Game1\Board1View.cpp" />
@@ -187,9 +190,10 @@
     <ClCompile Include="Views\Game2\Board2View.cpp" />
     <ClCompile Include="Views\Game2\Game2View.cpp" />
     <ClCompile Include="Views\Game2\Piece2View.cpp" />
-    <ClCompile Include="Views\Game3View\Game3View.cpp" />
-    <ClCompile Include="Views\Game3View\Piece3View.cpp" />
+    <ClCompile Include="Views\Game3\Game3View.cpp" />
+    <ClCompile Include="Views\Game3\Piece3View.cpp" />
     <ClCompile Include="Views\MenuView\MenuView.cpp" />
+    <ClCompile Include="Views\Piece\PieceView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controllers\Game1State.h" />
@@ -198,7 +202,7 @@
     <ClInclude Include="Controllers\GameState.h" />
     <ClInclude Include="Controllers\GameStateManager.h" />
     <ClInclude Include="Controllers\MenuState.h" />
-    <ClInclude Include="Models\BoardModel.h" />
+    <ClInclude Include="Models\Board\BoardModel.h" />
     <ClInclude Include="Models\Game1\Board1Model.h" />
     <ClInclude Include="Models\Game1\Game1Model.h" />
     <ClInclude Include="Models\Game1\Game1Player.h" />
@@ -207,14 +211,18 @@
     <ClInclude Include="Models\Game2\Game2Model.h" />
     <ClInclude Include="Models\Game2\Game2Player.h" />
     <ClInclude Include="Models\Game2\Piece2Model.h" />
+    <ClInclude Include="Models\Game3\Board3Model.h" />
     <ClInclude Include="Models\Game3\Game3Model.h" />
     <ClInclude Include="Models\Game3\Game3Player.h" />
     <ClInclude Include="Models\Game3\Piece3Model.h" />
+    <ClInclude Include="Models\Piece\PieceModel.h" />
     <ClInclude Include="Models\Player\Player.h" />
-    <ClInclude Include="Models\Strategy\KingMovementStrategy.h" />
+    <ClInclude Include="Models\Strategy\Game2\Game2PawnMovementStrategy.h" />
+    <ClInclude Include="Models\Strategy\Game2\Game2QueenMovementStrategy.h" />
+    <ClInclude Include="Models\Strategy\Game3\KingMovementStrategy.h" />
+    <ClInclude Include="Models\Strategy\Game3\PawnMovementStrategy.h" />
+    <ClInclude Include="Models\Strategy\Game3\QueenMovementStrategy.h" />
     <ClInclude Include="Models\Strategy\MovementStrategy.h" />
-    <ClInclude Include="Models\Strategy\PawnMovementStrategy.h" />
-    <ClInclude Include="Models\Strategy\QueenMovementStrategy.h" />
     <ClInclude Include="PieceTextures.h" />
     <ClInclude Include="Views\BoardView.h" />
     <ClInclude Include="Views\Game1\Board1View.h" />
@@ -223,9 +231,10 @@
     <ClInclude Include="Views\Game2\Board2View.h" />
     <ClInclude Include="Views\Game2\Game2View.h" />
     <ClInclude Include="Views\Game2\Piece2View.h" />
-    <ClInclude Include="Views\Game3View\Game3View.h" />
-    <ClInclude Include="Views\Game3View\Piece3View.h" />
+    <ClInclude Include="Views\Game3\Game3View.h" />
+    <ClInclude Include="Views\Game3\Piece3View.h" />
     <ClInclude Include="Views\MenuView\MenuView.h" />
+    <ClInclude Include="Views\Piece\PieceView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
-#include "BoardModel.h"
+#include "Board3Model.h"
 
-BoardModel::BoardModel() {
+Board3Model::Board3Model() {
 	// Initialize square sizes and positions
 	float xOffset = 0.0f, yOffset = 0.0f;
 
@@ -20,7 +20,7 @@ BoardModel::BoardModel() {
 	}
 }
 
-sf::Vector2f BoardModel::determineSquareSize(int position) const {
+sf::Vector2f Board3Model::determineSquareSize(int position) const {
 	int mod30 = position % 30;
 	if (mod30 == 0) mod30 = 30;  // Adjust for positions that are multiples of 30
 
@@ -35,7 +35,7 @@ sf::Vector2f BoardModel::determineSquareSize(int position) const {
 	}
 }
 
-int BoardModel::getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPosition) const {
+int Board3Model::getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPosition) const {
 	for (int i = 0; i < 225; ++i) {
 		const sf::Vector2f& size = squareSizes[i];
 		const sf::Vector2f& position = squarePositions[i];
@@ -49,10 +49,10 @@ int BoardModel::getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPo
 	return -1;
 }
 
-const std::array<sf::Vector2f, 225>& BoardModel::getSquareSizes() const {
+const std::array<sf::Vector2f, 225>& Board3Model::getSquareSizes() const {
 	return squareSizes;
 }
 
-const std::array<sf::Vector2f, 225>& BoardModel::getSquarePositions() const {
+const std::array<sf::Vector2f, 225>& Board3Model::getSquarePositions() const {
 	return squarePositions;
 }
