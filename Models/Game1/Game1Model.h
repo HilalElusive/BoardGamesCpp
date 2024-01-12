@@ -32,7 +32,9 @@ private:
 public:
 	Game1Model();
 
-	Game1Player& getCurrentPlayer(); // Get the current player
+	const Game1Player& getCurrentPlayer() const; // Get the current player (used by read-only classes)
+	Game1Player& getCurrentPlayer() ;
+
 	void restart();
 	void setTurnInit(bool turn);
 
@@ -45,6 +47,7 @@ public:
 
 	const std::vector<int>& getValidMoves() const;
 	const Board1Model& getBoardModel() const;
+	const std::vector<Game1Player>& getPlayers() const;
 	const std::array<Piece1Model, 64>& allPieces() const;
 };
 

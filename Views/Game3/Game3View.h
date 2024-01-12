@@ -2,8 +2,8 @@
 #define GAME3VIEW_H
 
 #include "../../Models/Game3/Game3Model.h"
+#include "./Board3View.h" 
 #include "./Piece3View.h"
-#include "../BoardView.h" 
 
 class Game3View {
 public:
@@ -12,10 +12,17 @@ public:
 
 private:
 	const Game3Model& model;
-	BoardView boardView;
+	Board3View boardView;
 	std::vector<Piece3View> pieceViews;
 
 	void createMovesSquares(std::vector<sf::RectangleShape>& squares);
+
+	std::vector<sf::Text> playerNames;
+	std::vector<sf::Text> playerScores;
+	sf::RectangleShape turnIndicatorBox;
+	sf::Text turnIndicatorText;
+
+	sf::Font font;
 };
 
 #endif

@@ -2,16 +2,12 @@
 #define BOARD2VIEW_H
 
 #include "../../Models/Game2/Board2Model.h"
+#include "../Board/BoardView.h"
 
-class Board2View {
+class Board2View : public BoardView {
+
 public:
 	Board2View(const Board2Model& model);
-	void load(sf::Color col1, sf::Color col2);
-	void draw(sf::RenderWindow& window) const;
-
-private:
-	const Board2Model& model;
-	std::array<sf::RectangleShape, 100> m_boardSquares;
 };
 
 #endif

@@ -16,6 +16,13 @@ private:
 	std::vector<Piece2View> pieceViews;
 
 	void createMovesSquares(std::vector<sf::RectangleShape>& squares);
+
+	std::vector<sf::Text> playerNames;
+	std::vector<sf::Text> playerScores;
+	sf::RectangleShape turnIndicatorBox;
+	sf::Text turnIndicatorText;
+
+	sf::Font font;
 };
 
 #endif

@@ -2,20 +2,16 @@
 #define BOARD3MODEL_H
 
 #include <array>
-#include <SFML/Graphics.hpp>
+#include "../Board/BoardModel.h"
 
-class Board3Model {
+class Board3Model : public BoardModel {
 public:
 	Board3Model();
-	int getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPosition) const;
+	virtual ~Board3Model() = default;
 	sf::Vector2f determineSquareSize(int position) const;
 
-	const std::array<sf::Vector2f, 225>& getSquareSizes() const;
-	const std::array<sf::Vector2f, 225>& getSquarePositions() const;
-
-private:
-	std::array<sf::Vector2f, 225> squareSizes;
-	std::array<sf::Vector2f, 225> squarePositions;
+protected:
+	void initializeSquares(int boardSize, const sf::Vector2f& uniformSize) override;
 
 };
 

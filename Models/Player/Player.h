@@ -17,7 +17,7 @@ public:
 	int getScore() const;
 	void setScore(int scr);
 
-	virtual void initializePieces(bool player);
+	virtual void initializePieces(bool player) = 0;
 };
 
 #endif

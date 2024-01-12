@@ -10,8 +10,8 @@ private:
 	Board3Model board;
 	Piece3Model* selectedPiece;
 
-	Game3Player player1;
-	Game3Player player2;
+	std::vector<Game3Player> players;
+	Game3Player* currentPlayer;
 
 	std::vector<int> validPotentialMove;
 	std::vector<Piece3Model*> capturablePieces;
@@ -55,7 +55,10 @@ public:
 
 	bool isSelected() const;
 	bool isTurnInitialized() const;
+
 	const Board3Model& getBoardModel() const;
+	Game3Player* getCurrentPlayer() const;
+	const std::vector<Game3Player>& getPlayers() const;
 };
 
 #endif

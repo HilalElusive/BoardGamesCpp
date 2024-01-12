@@ -7,6 +7,7 @@ class Game1Player : public Player {
 
 public:
 	Game1Player(int id, const std::string& name);
+	void initializePieces(bool player) override;
 
 };
 

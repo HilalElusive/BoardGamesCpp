@@ -2,9 +2,8 @@
 #include <iostream>
 
 MenuView::MenuView(float width, float height) {
-	if (!font.loadFromFile("Fonts/arial.ttf")) {
+	if (!font.loadFromFile("Fonts/arial.ttf"))
 		std::cout << "Error loading font\n";
-	}
 
 	for (int i = 0; i < 3; ++i) {
 		menu[i].setFont(font);
@@ -14,10 +13,8 @@ MenuView::MenuView(float width, float height) {
 
 		// Get the bounding box of the text
 		sf::FloatRect textRect = menu[i].getGlobalBounds();
-
 		// Set the origin of the text to its center
 		menu[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-
 		// Set the position of the text
 		menu[i].setPosition(sf::Vector2f(width / 2.0f, height / (3 + 1) * (i + 1)));
 	}

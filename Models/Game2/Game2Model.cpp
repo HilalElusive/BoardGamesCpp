@@ -1,14 +1,23 @@
 #include "Game2Model.h"
 #include <iostream>
 
-Game2Model::Game2Model() : board(), player1(1, "Player One"), player2(2, "Player Two") {
+Game2Model::Game2Model() : board() {
+	players.emplace_back(1, "Player One");
+	players.emplace_back(2, "Player Two");
+
+	currentPlayer = &players[0];
 	turnInitialized = false;
 	restart();
+	
 }
 
 const std::vector<int>& Game2Model::getValidMoves() const { return validPotentialMove; }
 
 const Board2Model & Game2Model::getBoardModel() const { return board; }
+
+Game2Player* Game2Model::getCurrentPlayer() const { return currentPlayer; }
+
+const std::vector<Game2Player>& Game2Model::getPlayers() const { return players; }
 
 bool Game2Model::isTurnInitialized() const { return turnInitialized; }
 
@@ -22,12 +31,12 @@ void Game2Model::restart() {
 	playerTurn = true; // Setting the first player as the one who starts the game
 	selectedPiece = nullptr;
 
-	player1.initializePieces(true); // true so that player1 get white colored pieces
-	player2.initializePieces(false);  // false so that player2 get black colored pieces
+	players[0].initializePieces(true); // true so that player1 get white colored pieces
+	players[1].initializePieces(false);  // false so that player2 get black colored pieces
 }
 
 void Game2Model::selectPiece(int pos) {
-	Game2Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game2Player& currentPlayer = (playerTurn ? players[0] : players[1]);
 	selectedPiece = currentPlayer.findPieceAtPosition(pos);
 	bool isCapturingPiece = std::find(capturingPieces.begin(), capturingPieces.end(), selectedPiece) != capturingPieces.end();
 
@@ -57,6 +66,11 @@ void Game2Model::moveSelected(int pos) {
 		turnInitialized = false;
 
 		playerTurn = !playerTurn;
+		if (currentPlayer->getId() == players[0].getId())
+			currentPlayer = &players[1];
+		else
+			currentPlayer = &players[0];
+
 		capturingPieces.clear();
 	}
 	selected = false;
@@ -249,11 +263,11 @@ std::vector<const Piece2Model*> Game2Model::allPieces() const {
 	std::vector<const Piece2Model*> combinedPieces;
 
 	// Add pieces from player1
-	for (const Piece2Model& piece : player1.getPieces()) {
+	for (const Piece2Model& piece : players[0].getPieces()) {
 		if (piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 	// Add pieces from player2
-	for (const Piece2Model& piece : player2.getPieces()) {
+	for (const Piece2Model& piece : players[1].getPieces()) {
 		if (piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 
@@ -261,8 +275,8 @@ std::vector<const Piece2Model*> Game2Model::allPieces() const {
 }
 
 Piece2Model* Game2Model::findPieceAtPosition(int position) {
-	if (player1.findPieceAtPosition(position) != nullptr) return player1.findPieceAtPosition(position);
-	if (player2.findPieceAtPosition(position) != nullptr) return player2.findPieceAtPosition(position);
+	if (players[0].findPieceAtPosition(position) != nullptr) return players[0].findPieceAtPosition(position);
+	if (players[1].findPieceAtPosition(position) != nullptr) return players[1].findPieceAtPosition(position);
 	return nullptr; // Return nullptr if no piece is found at the position
 }
 
@@ -277,7 +291,7 @@ void Game2Model::pawnPromotion(Piece2Model * pawn) {
 }
 
 void Game2Model::findCapturingScenarios() {
-	Game2Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game2Player& currentPlayer = (playerTurn ? players[0] : players[1]);
 	const std::array<Piece2Model, 20>& playerPieces = currentPlayer.getPieces();
 
 	int pieceCaptures = 0, maxCaptures = 0;

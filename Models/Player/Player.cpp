@@ -17,5 +17,3 @@ int Player::getScore() const {
 void Player::setScore(int scr) {
 	score += scr;
 }
-
-void Player::initializePieces(bool player) {} // Default implementation: Do nothing

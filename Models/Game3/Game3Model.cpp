@@ -1,7 +1,11 @@
 #include "Game3Model.h"
 #include <iostream>
 
-Game3Model::Game3Model() : board(), player1(1, "Player One"), player2(2, "Player Two") {
+Game3Model::Game3Model() : board() {
+	players.emplace_back(1, "Player One");
+	players.emplace_back(2, "Player Two");
+
+	currentPlayer = &players[0];
 	turnInitialized = false;
 	restart();
 }
@@ -11,6 +15,10 @@ bool Game3Model::isSelected() const { return selected; }
 bool Game3Model::isTurnInitialized() const { return turnInitialized; }
 
 const Board3Model & Game3Model::getBoardModel() const { return board; }
+
+Game3Player * Game3Model::getCurrentPlayer() const { return currentPlayer; }
+
+const std::vector<Game3Player>& Game3Model::getPlayers() const { return players; }
 
 void Game3Model::setTurnInit(bool turn) { turnInitialized = turn; }
 
@@ -22,12 +30,12 @@ void Game3Model::restart() {
 	capturingPieces.clear();
 	capturablePieces.clear();
 
-	player1.initializePieces(true); // true so that player1 get white colored pieces
-	player2.initializePieces(false);  // false so that player2 get black colored pieces
+	players[0].initializePieces(true); // true so that player1 get white colored pieces
+	players[1].initializePieces(false);  // false so that player2 get black colored pieces
 }
 
 void Game3Model::selectPiece(int pos) {
-	Game3Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game3Player& currentPlayer = (playerTurn ? players[0] : players[1]);
 	selectedPiece = currentPlayer.findPieceAtPosition(pos);
 	bool isCapturingPiece = std::find(capturingPieces.begin(), capturingPieces.end(), selectedPiece) != capturingPieces.end();
 
@@ -279,8 +287,8 @@ bool Game3Model::hasIntermediateObstacles(std::vector<int>& intermediatePosition
 }
 
 Piece3Model* Game3Model::findPieceAtPosition(int position) {
-	if (player1.findPieceAtPosition(position) != nullptr) return player1.findPieceAtPosition(position);
-	if (player2.findPieceAtPosition(position) != nullptr) return player2.findPieceAtPosition(position);
+	if (players[0].findPieceAtPosition(position) != nullptr) return players[0].findPieceAtPosition(position);
+	if (players[1].findPieceAtPosition(position) != nullptr) return players[1].findPieceAtPosition(position);
 	return nullptr; // Return nullptr if no piece is found at the position
 }
 
@@ -288,12 +296,12 @@ std::vector<const Piece3Model*> Game3Model::allPieces() const {
 	std::vector<const Piece3Model*> combinedPieces;
 
 	// Add pieces from player1
-	for (const Piece3Model& piece : player1.getPieces()){
+	for (const Piece3Model& piece : players[0].getPieces()){
 		if(piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 
 	// Add pieces from player2
-	for (const Piece3Model& piece : player2.getPieces()) {
+	for (const Piece3Model& piece : players[1].getPieces()) {
 		if (piece.getPosition() != -1) combinedPieces.push_back(&piece);
 	}
 
@@ -301,7 +309,7 @@ std::vector<const Piece3Model*> Game3Model::allPieces() const {
 }
 
 void Game3Model::findCapturingScenarios() {
-	Game3Player& currentPlayer = (playerTurn ? player1 : player2);
+	Game3Player& currentPlayer = (playerTurn ? players[0] : players[1]);
 	const std::array<Piece3Model, 24>& playerPieces = currentPlayer.getPieces();
 
 	const std::vector<const Piece3Model*>& allpieces = allPieces();
@@ -344,7 +352,7 @@ void Game3Model::pawnPromotion(Piece3Model * pawn) {
 
 bool Game3Model::checkmate() {
 	// Check if one of kings is checkmated
-	if (isKingCheckmated(player1.getPieces()[0]) || isKingCheckmated(player2.getPieces()[0]))
+	if (isKingCheckmated(players[0].getPieces()[0]) || isKingCheckmated(players[1].getPieces()[0]))
 		return true;
 	return false;
 }

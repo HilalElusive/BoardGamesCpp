@@ -4,7 +4,7 @@
 Piece1View::Piece1View(const Piece1Model & pieceModel, const Board1Model & boardModel) 
 	: pieceModel(pieceModel), boardModel(boardModel), lastKnownPosition(-1) {
 	// Initialize the texture (sf::CircleShape)
-	texture.setRadius(boardModel.getSquareSize().x / 2 - 5);
+	texture.setRadius(boardModel.getSquareSizes()[0].x / 2 - 5);
 	texture.setOrigin(texture.getRadius(), texture.getRadius()); // Set origin to the center
 	setPieceColor(); // Set piece color accordingly
 }
@@ -23,7 +23,7 @@ void Piece1View::alignTexture() {
 	if (pieceModel.getPosition() == -1) return;
 
 	const sf::Vector2f& position = boardModel.getSquarePositions()[pieceModel.getPosition()];
-	const sf::Vector2f& size = boardModel.getSquareSize();
+	const sf::Vector2f& size = boardModel.getSquareSizes()[0]; 
 
 	// Align the center of the texture to the center of the square
 	texture.setPosition(position.x + size.x / 2, position.y + size.y / 2);

@@ -10,7 +10,7 @@ void Piece2View::alignTexture() {
 	if (pieceModel.getPosition() == -1) return;
 
 	const sf::Vector2f& position = boardModel.getSquarePositions()[pieceModel.getPosition()];
-	const sf::Vector2f& size = boardModel.getSquareSize();
+	const sf::Vector2f& size = boardModel.getSquareSizes()[0];
 
 	m_sprite.setPosition(position.x + 1 + size.x / 2, position.y + 1 + size.y / 2);
 }

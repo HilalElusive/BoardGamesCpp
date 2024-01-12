@@ -1,23 +1,8 @@
 #include "Board3Model.h"
 
 Board3Model::Board3Model() {
-	// Initialize square sizes and positions
-	float xOffset = 0.0f, yOffset = 0.0f;
-
-	for (int position = 0; position < 225; position++) {
-		sf::Vector2f size = determineSquareSize(position + 1);
-		squareSizes[position] = size;
-
-		// Calculate and store the position
-		squarePositions[position] = sf::Vector2f(xOffset, yOffset);
-
-		// Update offsets for the next square
-		xOffset += size.x;
-		if ((position + 1) % 15 == 0) {
-			xOffset = 0.0f;
-			yOffset += size.y;
-		}
-	}
+	// A 15x15 board for "BullTricker"
+	initializeSquares(225, sf::Vector2f(0.f, 0.f)); // Size is irrelevant here, as it's overridden
 }
 
 sf::Vector2f Board3Model::determineSquareSize(int position) const {
@@ -35,24 +20,23 @@ sf::Vector2f Board3Model::determineSquareSize(int position) const {
 	}
 }
 
-int Board3Model::getClickedSquareIndex(const sf::Event::MouseButtonEvent& clickPosition) const {
-	for (int i = 0; i < 225; ++i) {
-		const sf::Vector2f& size = squareSizes[i];
-		const sf::Vector2f& position = squarePositions[i];
+void Board3Model::initializeSquares(int boardSize, const sf::Vector2f & uniformSize) {
+	squareSizes.clear();
+	squarePositions.clear();
+	squareSizes.reserve(boardSize);
+	squarePositions.reserve(boardSize);
 
-		// Check if the click is within the square's bounds
-		if (clickPosition.x >= position.x && clickPosition.x < position.x + size.x &&
-			clickPosition.y >= position.y && clickPosition.y < position.y + size.y) {
-			return i; // Index of the square that was clicked
+	float xOffset = 0.0f, yOffset = 0.0f;
+
+	for (int position = 0; position < boardSize; ++position) {
+		sf::Vector2f size = determineSquareSize(position + 1);
+		squareSizes.push_back(size);
+		squarePositions.emplace_back(xOffset, yOffset);
+
+		xOffset += size.x;
+		if ((position + 1) % 15 == 0) {
+			xOffset = 0.0f;
+			yOffset += size.y;
 		}
 	}
-	return -1;
-}
-
-const std::array<sf::Vector2f, 225>& Board3Model::getSquareSizes() const {
-	return squareSizes;
-}
-
-const std::array<sf::Vector2f, 225>& Board3Model::getSquarePositions() const {
-	return squarePositions;
 }

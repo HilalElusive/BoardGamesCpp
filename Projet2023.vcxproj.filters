@@ -36,9 +36,6 @@
     <ClCompile Include="Models\Player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\BoardView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Views\MenuView\MenuView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +123,15 @@
     <ClCompile Include="Models\Game3\Board3Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Models\Board\BoardModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\Game3\Board3View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\Board\BoardView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PieceTextures.h">
@@ -150,9 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Models\Strategy\MovementStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\BoardView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\MenuView\MenuView.h">
@@ -243,6 +246,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Models\Game3\Board3Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Game3\Board3View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Board\BoardView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

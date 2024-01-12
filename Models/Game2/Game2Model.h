@@ -10,8 +10,8 @@ private:
 	Board2Model board;
 	Piece2Model* selectedPiece;
 
-	Game2Player player1;
-	Game2Player player2;
+	std::vector<Game2Player> players;
+	Game2Player* currentPlayer;
 
 	bool playerTurn;
 	bool turnInitialized;
@@ -50,6 +50,9 @@ public:
 	std::vector<const Piece2Model*> allPieces() const;
 
 	const Board2Model& getBoardModel() const;
+	Game2Player* getCurrentPlayer() const;
+	const std::vector<Game2Player>& getPlayers() const;
+
 	bool isTurnInitialized() const;
 	bool isSelected() const;
 };

@@ -27,7 +27,11 @@ bool Game1Model::isSelected() const { return selected; }
 
 const Board1Model & Game1Model::getBoardModel() const { return board; }
 
+const std::vector<Game1Player>& Game1Model::getPlayers() const { return players; }
+
 const std::array<Piece1Model, 64>& Game1Model::allPieces() const { return pieces; }
+
+const Game1Player & Game1Model::getCurrentPlayer() const { return players[currentPlayerIndex]; }
 
 Game1Player & Game1Model::getCurrentPlayer() { return players[currentPlayerIndex]; }
 
